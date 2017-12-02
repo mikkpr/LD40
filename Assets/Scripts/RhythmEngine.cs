@@ -105,6 +105,7 @@ public class RhythmEngine : MonoBehaviour
         {
             Unit unit = entry.Key;
             Tracking tracking = entry.Value;
+            KeyCode key = unit.keyCodes[tracking.index];
 
             float sinceBeat = SoundManager.instance.musicSource.time % unit.interval;
             bool oldInBeat = tracking.inBeat;
@@ -112,20 +113,23 @@ public class RhythmEngine : MonoBehaviour
 
             if (!oldInBeat && tracking.inBeat)
             {
+                Debug.Log("OnBeatStart: " + key);
                 tracking.started = true;
                 tracking.pressed = 0;
                 unit.OnBeatStart();
             }
             else if (tracking.started && oldInBeat && !tracking.inBeat)
             {
+                Debug.Log("OnBeatEnd(" + (tracking.pressed == 1) + "): " + key);
                 tracking.index = 0;
                 unit.OnBeatEnd(tracking.pressed == 1);
             }
 
-            if (tracking.started && Input.GetKeyDown(unit.keyCodes[tracking.index]))
+            if (tracking.started && Input.GetKeyDown(key))
             {
                 if (!tracking.inBeat)
                 {
+                    Debug.Log("OnOutOfBeat: " + key);
                     unit.OnOutOfBeat();
                     return;
                 }
@@ -135,10 +139,12 @@ public class RhythmEngine : MonoBehaviour
                 {
                     if (tracking.pressed > 0)
                     {
+                        Debug.Log("OnBeatDouble: " + key);
                         unit.OnBeatDouble();
                     }
                     else
                     {
+                        Debug.Log("OnBeatHit: " + key);
                         unit.OnBeatHit();
                     }
                     tracking.pressed++;
