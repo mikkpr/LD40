@@ -4,24 +4,45 @@ using UnityEngine;
 
 public class UnitGroup : MonoBehaviour {
 
-    public float groupBeginScreenRatio = 0.1f;
-    public float groupEndScreenRatio = 0.5f;
-
-    private List<Unit> groupList = null;
+    private List<Unit> unitList = null;
+    private Collider2D col = null;
+    private float lastLocationUpdate = float.NegativeInfinity;
 
     void Awake () {
-        groupList = new List<Unit>();
+        unitList = new List<Unit>();
+        col = GetComponent<Collider2D>();
+    }
+
+    void Start() {
+        Debug.Log("center" + col.bounds.center);
+        Debug.Log("extents" + col.bounds.extents);
+        Debug.Log("size" + col.bounds.size);
+        Debug.Log("min" + col.bounds.min);
+        Debug.Log("max" + col.bounds.max);
     }
 
     void Update () {
+        float t = Time.time;
+        if (lastLocationUpdate < t) {
+            Vector3 bboxMin = col.bounds.min;
+            Vector3 bboxMax = col.bounds.max;
 
+            int nunits = unitList.Count;
+
+            // Update targets for units in group
+            foreach (Unit u in unitList) {
+                //u.inGroupTarget =
+            }
+
+            lastLocationUpdate = t;
+        }
     }
 
     public void AddUnit(Unit u) {
-        groupList.Add(u);
+        unitList.Add(u);
     }
 
     public void RemoveUnit(Unit u) {
-        groupList.Remove(u);
+        unitList.Remove(u);
     }
 }

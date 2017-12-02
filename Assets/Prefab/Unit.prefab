@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a9b47e3def2645db907112a4b4d1509, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 3
+  startHealth: 3
   interval: 1
   keyCodes: 
   group: {fileID: 0}

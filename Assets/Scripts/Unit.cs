@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour {
 
-    public int health = 3;
+    public int startHealth = 3;
     public float interval = 1.0f;
     public List<KeyCode> keyCodes = null;
     public UnitGroup group = null;
@@ -12,9 +12,11 @@ public class Unit : MonoBehaviour {
     public Vector3 scrollDirection = new Vector3(-1.0f, 0.0f, 0.0f);
 
     private UnitGroup candidateGroup = null;
+    private int health = 0;
 
     void Awake() {
         keyCodes = new List<KeyCode>();
+        health = startHealth;
     }
 
     void Update () {
