@@ -3,82 +3,97 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RhythmEngine : MonoBehaviour {
+public class RhythmEngine : MonoBehaviour
+{
 
-	// Time of the initial beat.
-	public float initial;
+    // Time of the initial beat.
+    public float initial;
 
-	// Interval between beats.
-	public float interval;
+    // Interval between beats.
+    public float interval;
 
-	// Allowed difference from the perfect beat.
-	public float accuracy;
+    // Allowed difference from the perfect beat.
+    public float accuracy;
 
-	// Key that must be pressed to hit beat.
-	public KeyCode key;
+    // Key that must be pressed to hit beat.
+    public KeyCode key;
 
-	public Text text;
+    public Text text;
 
-	private bool inBeat;
-	private bool pressed;
+    bool inBeat;
+    bool pressed;
 
-	void Start() {
-		inBeat = false;
-		pressed = false;
-	}
+    void Start()
+    {
+        
+    }
 
-	void Update () {
-		float sinceInitial = Time.time - initial;
-		float sinceBeat = sinceInitial % interval;
+    void Update()
+    {
+        float sinceInitial = Time.time - initial;
+        float sinceBeat = sinceInitial % interval;
 
-		bool oldInBeat = inBeat;
-		inBeat = sinceBeat < accuracy || sinceBeat > (interval - accuracy);
+        bool oldInBeat = inBeat;
+        inBeat = sinceBeat < accuracy || sinceBeat > (interval - accuracy);
 
-		if (!oldInBeat && inBeat) {
-			pressed = false;
-			onBeatStart();
-		} else if (oldInBeat && !inBeat) {
-			onBeatEnd();
-			if (!pressed) {
-				onBeatMissed();
-			}
-		}
+        if (!oldInBeat && inBeat)
+        {
+            pressed = false;
+            OnBeatStart();
+        }
+        else if (oldInBeat && !inBeat)
+        {
+            OnBeatEnd();
+            if (!pressed)
+            {
+                OnBeatMissed();
+            }
+        }
 
-		if (Input.GetKeyDown(key)) {
-			if (!inBeat) {
-				onOutOfBeat();
-				return;
-			}
-			if (pressed) {
-				onBeatDouble();
-				return;
-			}
-			onBeatHit();
-			pressed = true;
-		}
-	}
+        if (Input.GetKeyDown(key))
+        {
+            if (!inBeat)
+            {
+                OnOutOfBeat();
+                return;
+            }
+            if (pressed)
+            {
+                OnBeatDouble();
+                return;
+            }
+            OnBeatHit();
+            pressed = true;
+        }
+    }
 
-	void onBeatStart() {
-		text.text = "start";
-	}
+    void OnBeatStart()
+    {
+        text.text = "start";
+    }
 
-	void onBeatEnd() {
-		text.text = "end";
-	}
+    void OnBeatEnd()
+    {
+        text.text = "end";
+    }
 
-	void onBeatMissed() {
-		text.text = "missed";
-	}
+    void OnBeatMissed()
+    {
+        text.text = "missed";
+    }
 
-	void onOutOfBeat() {
-		text.text = "out of beat";
-	}
+    void OnOutOfBeat()
+    {
+        text.text = "out of beat";
+    }
 
-	void onBeatDouble() {
-		text.text = "double";
-	}
+    void OnBeatDouble()
+    {
+        text.text = "double";
+    }
 
-	void onBeatHit() {
-		text.text = "hit!";
-	}
+    void OnBeatHit()
+    {
+        text.text = "hit!";
+    }
 }
