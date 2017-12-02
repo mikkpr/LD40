@@ -68,15 +68,25 @@ public class RhythmEngine : MonoBehaviour
     // will be added to unit.KeyCodes.
     public void AddMarching(Unit unit)
     {
-        // Allocate a random unused KeyCode to the unit.
         // TODO: KeyCode sequences.
-        // XXX: Will loop forever if all keys are allocated.
         KeyCode key = KeyCode.None; 
-        do
+
+        // As a special case, allocate the first allowed KeyCode to the first
+        // added Unit.
+        if (units.Count == 0)
         {
-            key = allowedKeys[Random.Range(0, allowedKeys.Count)];
+            key = allowedKeys[0];
         }
-        while (allocatedKeys.Contains(key));
+        // Otherwise allocate a random unused KeyCode to the unit.
+        else
+        {
+            // XXX: Will loop forever if all keys are allocated.
+            do
+            {
+                key = allowedKeys[Random.Range(0, allowedKeys.Count)];
+            }
+            while (allocatedKeys.Contains(key));
+        }
         allocatedKeys.Add(key);
         unit.keyCodes.Add(key);
 

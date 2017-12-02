@@ -1,0 +1,78 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae0543fe805424df99fe08ce744cbe49, type: 3}
+  m_Name: base
+  m_EditorClassIdentifier: 
+  m_PoseEntries:
+  - path: afrobones/root
+    localPosition: {x: -0.46999764, y: -1.8897508, z: 0}
+    localRotation: {x: 0, y: 0, z: 0.8039263, w: 0.594729}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: afrobones/root/body1
+    localPosition: {x: 0.45654255, y: 0, z: 0}
+    localRotation: {x: 0, y: 0, z: -0.13264963, w: 0.991163}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: afrobones/root/body1/body2
+    localPosition: {x: 0.9701433, y: 0.000000013038516, z: 0}
+    localRotation: {x: 0, y: 0, z: 0.015717834, w: 0.9998765}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: afrobones/root/body1/body2/head1
+    localPosition: {x: 0.99999994, y: -0.0000001937151, z: 0}
+    localRotation: {x: 0, y: 0, z: -0.34055075, w: 0.94022614}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: afrobones/root/body1/body2/head1/head
+    localPosition: {x: 0.57000244, y: -0.000000007450581, z: 0}
+    localRotation: {x: 0, y: 0, z: -0.7116071, w: 0.70257765}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: afrobones/root/body1/body2/head1/head/hair1
+    localPosition: {x: -0.68218327, y: -0.9265264, z: 0}
+    localRotation: {x: 0, y: 0, z: 0.97826254, w: 0.2073703}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: afrobones/root/body1/body2/head1/arm1
+    localPosition: {x: -1.0296135, y: 0.23746037, z: 0}
+    localRotation: {x: 0, y: 0, z: 0.9834192, w: 0.18134697}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: afrobones/root/body1/body2/head1/arm1/arm2
+    localPosition: {x: 0.8480571, y: -0.0000004172325, z: 0}
+    localRotation: {x: 0, y: 0, z: 0, w: 1}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: afrobones/root/body1/body2/head1/arm1b
+    localPosition: {x: -0.22055241, y: -0.7428527, z: 0}
+    localRotation: {x: 0, y: 0, z: -0.836835, w: 0.54745513}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: afrobones/root/body1/body2/head1/arm1b/arm2b
+    localPosition: {x: 0.685511, y: 0.00000023841858, z: 0}
+    localRotation: {x: 0, y: 0, z: 0, w: 1}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: afrobones/root/body1/body2/head1/arm1b/arm2b/weapon
+    localPosition: {x: 0.78004706, y: 0.00000014575198, z: 0}
+    localRotation: {x: 0, y: 0, z: 0.94800055, w: 0.31826875}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: afrobones/root/body1/body2/head1/hair2
+    localPosition: {x: 0.57077014, y: 0.7209962, z: 0}
+    localRotation: {x: 0, y: 0, z: 0.66381097, w: 0.7479005}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: afrobones/root/body1/leg1
+    localPosition: {x: -0.47709724, y: 0.49021524, z: 0}
+    localRotation: {x: 0, y: 0, z: -0.99999225, w: 0.00393576}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: afrobones/root/body1/leg1/leg2
+    localPosition: {x: 0.77714986, y: -0.000000007450581, z: 0}
+    localRotation: {x: 0, y: 0, z: 0, w: 1}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: afrobones/root/body1/leg1b
+    localPosition: {x: -0.43851537, y: -0.38373578, z: 0}
+    localRotation: {x: 0, y: 0, z: 0.99997085, w: 0.0076365485}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: afrobones/root/body1/leg1b/leg2b
+    localPosition: {x: 0.8113732, y: -0.000000074505806, z: 0}
+    localRotation: {x: 0, y: 0, z: 0, w: 1}
+    localScale: {x: 1, y: 1, z: 1}
