@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class UnitGroup : MonoBehaviour {
 
+    public float locationUpdateDelta = 0.5f;
+
     private List<Unit> unitList = null;
     private Collider2D col = null;
     private float lastLocationUpdate = float.NegativeInfinity;
@@ -13,14 +15,6 @@ public class UnitGroup : MonoBehaviour {
         col = GetComponent<Collider2D>();
     }
 
-    void Start() {
-        Debug.Log("center" + col.bounds.center);
-        Debug.Log("extents" + col.bounds.extents);
-        Debug.Log("size" + col.bounds.size);
-        Debug.Log("min" + col.bounds.min);
-        Debug.Log("max" + col.bounds.max);
-    }
-
     void Update () {
         float t = Time.time;
         if (lastLocationUpdate < t) {
@@ -28,19 +22,21 @@ public class UnitGroup : MonoBehaviour {
                 Vector3 bboxMin = col.bounds.min;
                 Vector3 bboxMax = col.bounds.max;
 
-                int n = unitList.Count + 1;
                 float bboxHeight = bboxMax.y - bboxMin.y;
                 float bboxWidth = bboxMax.x - bboxMin.x;
-
-                float heightDelta = bboxHeight / n;
+                float heightDelta = bboxHeight / (unitList.Count + 1);
 
                 // Update targets for units in group
-                foreach (Unit u in unitList) {
-                    //u.inGroupTarget =
+                for (int i = 0; i < unitList.Count; ++i) {
+                    Unit u = unitList[i];
+                    float widthDelta = bboxWidth / (u.startHealth + 1);
+                    float localX = bboxMin.x + (u.health + 1) * widthDelta;
+                    float localY = bboxMin.y + (i + 1) * heightDelta;
+                    u.inGroupTargetPosition = transform.TransformPoint(new Vector3(localX, localY, -transform.position.z));
                 }
             }
 
-            lastLocationUpdate = t;
+            lastLocationUpdate = t + locationUpdateDelta;
         }
     }
 

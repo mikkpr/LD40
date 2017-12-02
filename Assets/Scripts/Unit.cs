@@ -5,14 +5,19 @@ using UnityEngine;
 public class Unit : MonoBehaviour {
 
     public int startHealth = 3;
+    public int health = 0;
     public float interval = 1.0f;
     public List<KeyCode> keyCodes = null;
     public UnitGroup group = null;
     public float scrollSpeed = 0.2f; // TODO get from world
     public Vector3 scrollDirection = new Vector3(-1.0f, 0.0f, 0.0f);
+    public Vector3 inGroupTargetPosition = Vector3.zero;
+
+    public float maxSpeed = 1.0f;
 
     private UnitGroup candidateGroup = null;
-    private int health = 0;
+
+    //private float lastHealthLostTime = float.NegativeInfinity;
 
     void Awake() {
         keyCodes = new List<KeyCode>();
@@ -23,8 +28,14 @@ public class Unit : MonoBehaviour {
         if (group == null) {
             Vector3 position = transform.position;
             transform.position += scrollDirection * Time.deltaTime;
+            //lastHealthLostTime = Time.time + 5.0f;
         } else {
-            // TODO move inside group
+            transform.position = Vector3.Lerp(transform.position, inGroupTargetPosition, Time.deltaTime * maxSpeed);
+
+            //if (lastHealthLostTime < Time.time) {
+            //    OnBeatEnd(false);
+            //    lastHealthLostTime = Time.time + 5.0f;
+            //}
         }
     }
 
@@ -33,6 +44,11 @@ public class Unit : MonoBehaviour {
     }
 
     public void OnBeatEnd(bool success) {
+        if (health <= 0) {
+            // This unit is already dismissed
+            return;
+        }
+
         // Time window for unit key presses ended
         if (success) {
             // This unit is successful
@@ -50,12 +66,14 @@ public class Unit : MonoBehaviour {
         } else {
             // This unit failed
             if (group != null) {
-                // Reduce this unit's health
-                health -= 1;
-                if (health <= 0) {
-                    // This unit has been removed from the army
-                    group.RemoveUnit(this);
-                    group = null;
+                if (health > 0) {
+                    // Reduce this unit's health
+                    health -= 1;
+                    if (health == 0) {
+                        // This unit is dismissed from the army
+                        group.RemoveUnit(this);
+                        group = null;
+                    }
                 }
             }
         }
@@ -80,6 +98,7 @@ public class Unit : MonoBehaviour {
         if (other.gameObject.tag == "Army") {
             candidateGroup = other.gameObject.GetComponent<UnitGroup>();
         }
+        //OnBeatEnd(true);
     }
 
     private void OnTriggerExit2D(Collider2D other) {
