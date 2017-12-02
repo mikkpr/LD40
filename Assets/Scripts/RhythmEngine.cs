@@ -4,6 +4,18 @@ using UnityEngine;
 
 public class RhythmEngine : MonoBehaviour
 {
+    // Gets the first RhythmEngine instance from the Scene tagged with
+    // "RhythmEngine".
+    public static RhythmEngine GetTagged()
+    {
+        GameObject[] tagged = GameObject.FindGameObjectsWithTag("RhythmEngine");
+        if (tagged.Length < 1)
+        {
+            return null;
+        }
+        return tagged[0].GetComponent<RhythmEngine>();
+    }
+
     // Name of the music track to play.
     public string musicTrack = "Music_1";
 
