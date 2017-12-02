@@ -4,34 +4,87 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour {
 
-    public float tact = 1.0f;
+    public int health = 3;
+    public float interval = 1.0f;
     public List<KeyCode> keyCodes = null;
     public UnitGroup group = null;
+    public float scrollSpeed = 0.2f; // TODO get from world
+    public Vector3 scrollDirection = new Vector3(-1.0f, 0.0f, 0.0f);
+
+    private UnitGroup candidateGroup = null;
 
     void Awake() {
         keyCodes = new List<KeyCode>();
     }
 
     void Update () {
+        if (group == null) {
+            Vector3 position = transform.position;
+            transform.position += scrollDirection * Time.deltaTime;
+        } else {
+        }
     }
 
-    void OnBeatStart() {
+    public void OnBeatStart() {
         // Time window for unit key presses started
     }
 
-    void OnBeatEnd(bool success) {
+    public void OnBeatEnd(bool success) {
         // Time window for unit key presses ended
+        if (success) {
+            // This unit is successful
+            if (group == null) {
+                // Not in the army yet
+                if (candidateGroup != null) {
+                    // Join the army
+                    candidateGroup.AddUnit(this);
+                    group = candidateGroup;
+                }
+            } else {
+                // We are in the army
+                // Keep up the good work
+            }
+        } else {
+            // This unit failed
+            if (group != null) {
+                // Reduce our health
+                health -= 1;
+                if (health <= 0) {
+                    // This unit has been removed from the army
+                    group.RemoveUnit(this);
+                    group = null;
+                }
+            }
+        }
     }
 
-    void OnBeatHit() {
+    public void OnBeatHit() {
         // Input was pressed in time window
     }
 
-    void OnBeatDouble() {
+    public void OnBeatDouble() {
         // Double input was given in time window
     }
 
-    void OnOutOfBeat() {
+    public void OnOutOfBeat() {
         // Keys were pressed out of time window
+    }
+
+    private void OnTriggerEnter2D(Collider2D other) {
+        if (candidateGroup != null) {
+            return;
+        }
+        if (other.gameObject.tag == "Army") {
+            candidateGroup = other.gameObject.GetComponent<UnitGroup>();
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other) {
+        if (candidateGroup == null) {
+            return;
+        }
+        if (other.gameObject.tag == "Army") {
+            candidateGroup = null;
+        }
     }
 }
