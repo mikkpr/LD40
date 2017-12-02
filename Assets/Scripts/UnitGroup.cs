@@ -24,14 +24,20 @@ public class UnitGroup : MonoBehaviour {
     void Update () {
         float t = Time.time;
         if (lastLocationUpdate < t) {
-            Vector3 bboxMin = col.bounds.min;
-            Vector3 bboxMax = col.bounds.max;
+            if (unitList.Count > 0) {
+                Vector3 bboxMin = col.bounds.min;
+                Vector3 bboxMax = col.bounds.max;
 
-            int nunits = unitList.Count;
+                int n = unitList.Count + 1;
+                float bboxHeight = bboxMax.y - bboxMin.y;
+                float bboxWidth = bboxMax.x - bboxMin.x;
 
-            // Update targets for units in group
-            foreach (Unit u in unitList) {
-                //u.inGroupTarget =
+                float heightDelta = bboxHeight / n;
+
+                // Update targets for units in group
+                foreach (Unit u in unitList) {
+                    //u.inGroupTarget =
+                }
             }
 
             lastLocationUpdate = t;
