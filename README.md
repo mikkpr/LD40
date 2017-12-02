@@ -1,3 +1,3 @@
-# LD40
+# LD40 – Dance Dance Revolution, literally!
 
-test
+Increase the size of your army, with rhythm, and conquer Europe
