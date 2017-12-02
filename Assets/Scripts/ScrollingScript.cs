@@ -58,9 +58,7 @@ public class ScrollingScript : MonoBehaviour
             // Note: Get the children from left to right.
             // We would need to add a few conditions to handle
             // all the possible scrolling directions.
-            backgroundPart = backgroundPart.OrderBy(
-              t => t.transform.position.x
-            ).ToList();
+            backgroundPart = backgroundPart.OrderBy(t => t.transform.position.x).ToList();
         }
     }
 
