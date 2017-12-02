@@ -17,13 +17,11 @@ public class UnitGroup : MonoBehaviour {
 
     }
 
-    void AddUnit(Unit u) {
+    public void AddUnit(Unit u) {
         groupList.Add(u);
-        u.group = this;
     }
 
-    void RemoveUnit(Unit u) {
-        u.group = null;
+    public void RemoveUnit(Unit u) {
         groupList.Remove(u);
     }
 }
