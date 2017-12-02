@@ -22,6 +22,7 @@ public class Unit : MonoBehaviour {
             Vector3 position = transform.position;
             transform.position += scrollDirection * Time.deltaTime;
         } else {
+            // TODO move inside group
         }
     }
 
@@ -47,7 +48,7 @@ public class Unit : MonoBehaviour {
         } else {
             // This unit failed
             if (group != null) {
-                // Reduce our health
+                // Reduce this unit's health
                 health -= 1;
                 if (health <= 0) {
                     // This unit has been removed from the army

@@ -193,6 +193,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 61800618795698374, guid: dccf48b97fce9476b93073664435bf84,
+        type: 2}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: dccf48b97fce9476b93073664435bf84, type: 2}
   m_IsPrefabParent: 0
@@ -288,7 +293,7 @@ GameObject:
   - component: {fileID: 1962644588}
   m_Layer: 0
   m_Name: UnitGroup
-  m_TagString: Untagged
+  m_TagString: Army
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
