@@ -14,11 +14,11 @@ public class Fight : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            RhythmClient.Instance.Pressed();
+            Debug.Log("Space down");    
         }
         else if (Input.GetKeyUp(KeyCode.Space))
         {
-            RhythmClient.Instance.Released();   
+            Debug.Log("Space up");
         }
 
     }
