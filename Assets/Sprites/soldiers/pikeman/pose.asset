@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae0543fe805424df99fe08ce744cbe49, type: 3}
+  m_Name: pose
+  m_EditorClassIdentifier: 
+  m_PoseEntries:
+  - path: bones/root
+    localPosition: {x: -0.1419903, y: -3.0953994, z: 0}
+    localRotation: {x: 0, y: 0, z: 0.8222653, w: 0.56910443}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: bones/root/body1
+    localPosition: {x: 1.3361388, y: -0.00000011920929, z: 0}
+    localRotation: {x: 0, y: 0, z: 0.0040505403, w: 0.99999183}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: bones/root/body1/body2
+    localPosition: {x: 1.0000384, y: 0.00000022992353, z: 0}
+    localRotation: {x: 0, y: 0, z: -0.2760059, w: 0.96115595}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: bones/root/body1/body2/body3
+    localPosition: {x: 0.99999994, y: -0.0000001937151, z: 0}
+    localRotation: {x: 0, y: 0, z: -0.3405514, w: 0.94022596}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: bones/root/body1/body2/body3/head
+    localPosition: {x: 0.5700002, y: -0.000000022351742, z: 0}
+    localRotation: {x: 0, y: 0, z: -0.2196126, w: 0.9755872}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: bones/root/body1/body2/body3/head/feather
+    localPosition: {x: 0.62517124, y: 0.753737, z: 0}
+    localRotation: {x: 0, y: 0, z: 0.5476571, w: 0.83670294}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: bones/root/body1/body2/body3/arm1
+    localPosition: {x: -0.06713857, y: 0.30592158, z: 0}
+    localRotation: {x: 0, y: 0, z: -0.99523485, w: 0.09750699}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: bones/root/body1/body2/body3/arm1/arm2
+    localPosition: {x: 0.99979067, y: 0, z: 0}
+    localRotation: {x: 0, y: 0, z: 0, w: 1}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: bones/root/body1/body2/body3/arm1b
+    localPosition: {x: 0.07854848, y: 0.14948277, z: 0}
+    localRotation: {x: 0, y: 0, z: -0.33360532, w: 0.94271284}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: bones/root/body1/body2/body3/arm1b/arm2b
+    localPosition: {x: 0.9841871, y: 0.00000011920929, z: 0}
+    localRotation: {x: 0, y: 0, z: 0.45331925, w: 0.89134824}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: bones/root/body1/body2/body3/arm1b/arm2b/weapon
+    localPosition: {x: 1.1475886, y: -0.00000047683716, z: 0}
+    localRotation: {x: 0, y: 0, z: 0.45557863, w: 0.8901956}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: bones/root/body1/leg1
+    localPosition: {x: 0.29418442, y: 0.27584255, z: 0}
+    localRotation: {x: 0, y: 0, z: 0.98823965, w: 0.15291327}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: bones/root/body1/leg1/leg2
+    localPosition: {x: 1.3821858, y: -0.000000059604645, z: 0}
+    localRotation: {x: 0, y: 0, z: 0, w: 1}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: bones/root/body1/leg1b
+    localPosition: {x: 0.2734542, y: -0.33148608, z: 0}
+    localRotation: {x: 0, y: 0, z: 0.9909341, w: 0.13434893}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: bones/root/body1/leg1b/leg2b
+    localPosition: {x: 1.6116543, y: -0.00000011920929, z: 0}
+    localRotation: {x: 0, y: 0, z: 0, w: 1}
+    localScale: {x: 1, y: 1, z: 1}
