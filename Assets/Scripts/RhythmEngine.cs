@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class RhythmEngine : MonoBehaviour
 {
-    // Time when the music was started.
-    public float initial = 0.0f;
+    // Name of the music track to play.
+    public string musicTrack = "Music_1";
 
     // Allowed difference from the perfect beat.
     public float accuracy = 0.25f;
@@ -44,6 +44,11 @@ public class RhythmEngine : MonoBehaviour
     {
         units = new Dictionary<Unit, Tracking>();
         allocatedKeys = new HashSet<KeyCode>();
+    }
+
+    void Start()
+    {
+        SoundManager.instance.PlayMusic(musicTrack);
     }
 
     // AddMarching adds a new marching Unit. It will be allocated a KeyCode
@@ -89,10 +94,7 @@ public class RhythmEngine : MonoBehaviour
             Unit unit = entry.Key;
             Tracking tracking = entry.Value;
 
-            // TODO: Use SoundManager.instance.musicSource.time instead.
-            float time = Time.time - initial;
-
-            float sinceBeat = time % unit.interval;
+            float sinceBeat = SoundManager.instance.musicSource.time % unit.interval;
             bool oldInBeat = tracking.inBeat;
             tracking.inBeat = sinceBeat < accuracy || sinceBeat > (unit.interval - accuracy);
 
