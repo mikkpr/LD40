@@ -23,17 +23,27 @@ public class Unit : MonoBehaviour {
     private bool followInGroupTarget = false;
     private TextMesh bannerText = null;
     private float lastBannerTextUpdate = float.NegativeInfinity;
-
-    //private float lastHealthLostTime = float.NegativeInfinity;
+    private Animator bannerManAnimator = null;
 
     void Awake() {
         keyCodes = new List<KeyCode>();
         health = startHealth;
-        Component[] components = GetComponentsInChildren(typeof(TextMesh));
-        foreach (Component c in components) {
-            if (c.gameObject.tag == "BannerText") {
-                bannerText = (TextMesh)c;
-                break;
+        {
+            Component[] components = GetComponentsInChildren(typeof(TextMesh));
+            foreach (Component c in components) {
+                if (c.gameObject.tag == "BannerText") {
+                    bannerText = (TextMesh)c;
+                    break;
+                }
+            }
+        }
+        {
+            Component[] components = GetComponentsInChildren(typeof(Animator));
+            foreach (Component c in components) {
+                if (c.gameObject.tag == "BannerMan") {
+                    bannerManAnimator = (Animator)c;
+                    break;
+                }
             }
         }
     }
@@ -45,16 +55,10 @@ public class Unit : MonoBehaviour {
         // Change position
         if (group == null) {
             newPosition = transform.position + scrollDirection * Time.deltaTime;
-            //lastHealthLostTime = Time.time + 5.0f;
         } else {
             if (followInGroupTarget) {
                 newPosition = Vector3.Lerp(transform.position, inGroupTargetPosition, Time.deltaTime * maxSpeed);
             }
-
-            //if (lastHealthLostTime < t) {
-            //    OnBeatEnd(false);
-            //    lastHealthLostTime = t + 5.0f;
-            //}
         }
 
         // Set depth according to Y position
@@ -80,6 +84,9 @@ public class Unit : MonoBehaviour {
 
     public void OnBeatStart() {
         // Time window for unit key presses started
+        if (bannerManAnimator != null) {
+            bannerManAnimator.SetBool("Alert", true);
+        }
     }
 
     public void OnBeatEnd(bool success) {
@@ -112,9 +119,15 @@ public class Unit : MonoBehaviour {
                         // This unit is dismissed from the army
                         group.RemoveUnit(this);
                         group = null;
+                        inGroupTargetPosition = Vector3.zero;
+                        followInGroupTarget = false;
                     }
                 }
             }
+        }
+
+        if (bannerManAnimator != null) {
+            bannerManAnimator.SetBool("Alert", false);
         }
     }
 
@@ -142,7 +155,6 @@ public class Unit : MonoBehaviour {
         if (other.gameObject.tag == "Army") {
             candidateGroup = other.gameObject.GetComponent<UnitGroup>();
         }
-        //OnBeatEnd(true);
     }
 
     private void OnTriggerExit2D(Collider2D other) {

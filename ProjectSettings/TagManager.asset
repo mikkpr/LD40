@@ -8,6 +8,7 @@ TagManager:
   - RhythmEngine
   - Distance
   - BannerText
+  - BannerMan
   layers:
   - Default
   - TransparentFX
