@@ -69,7 +69,6 @@ public class Unit : MonoBehaviour {
             Component[] components = GetComponentsInChildren(typeof(TextMeshPro));
             foreach (Component c in components)
             {
-                //print("C1: " + c.gameObject.tag);
                 if (c.gameObject.tag == "BannerText")
                 {
                     bannerText = (TextMeshPro)c;
@@ -85,9 +84,7 @@ public class Unit : MonoBehaviour {
 
                 if (c.gameObject.tag.Equals("BannerMan"))
                 {
-                    //print("C2: " + c.gameObject.tag);
                     bannerManAnimator = (Animator)c;
-                    //print(bannerManAnimator);
                 }
                 else
                 {
@@ -97,7 +94,15 @@ public class Unit : MonoBehaviour {
         }
     }
 
+    string triggerNext;
+
     void Update () {
+        
+        if (triggerNext != "")
+        {
+            bannerManAnimator.SetTrigger("Alert");
+        }
+            
         float t = Time.time;
         Vector3 newPosition = Vector3.zero;
 
@@ -171,6 +176,7 @@ public class Unit : MonoBehaviour {
     public void OnBeatStart() {
         // Time window for unit key presses started
         if (bannerManAnimator != null) {
+            triggerNext = "Alert";
             bannerManAnimator.SetTrigger("Alert");
         } else {
             print("BannerMan is null");
@@ -178,6 +184,8 @@ public class Unit : MonoBehaviour {
 
         if (soldierAnimators != null) {
             foreach (Animator a in soldierAnimators) {
+                bool isActive = a.gameObject.activeSelf;
+                print("a IsActive: " + isActive);
                 a.SetTrigger("Alert");
             }
         } else {

@@ -23,10 +23,10 @@ public class Fight : MonoBehaviour
         }
         instantiated = true;
 
-        SoundManager.instance.addMusicLayer();
-        SoundManager.instance.addMusicLayer();
-        SoundManager.instance.addMusicLayer();
-        SoundManager.instance.addMusicLayer();
+        //SoundManager.instance.addMusicLayer();
+        //SoundManager.instance.addMusicLayer();
+        //SoundManager.instance.addMusicLayer();
+        //SoundManager.instance.addMusicLayer();
     }
 
     float nextTime = 32;
