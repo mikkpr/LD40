@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class RhythmTestScript : MonoBehaviour
 {
-    public Unit unit;
+    public Unit[] units;
 
     void Start()
     {
-        RhythmEngine.GetTagged().AddMarching(unit);
+        foreach (Unit unit in units)
+        {
+            RhythmEngine.GetTagged().AddMarching(unit);
+        }
     }
 }
