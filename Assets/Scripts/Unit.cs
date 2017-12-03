@@ -77,7 +77,44 @@ public class Unit : MonoBehaviour {
             if (bannerText != null && keyCodes != null) {
                 System.Text.StringBuilder sb = new System.Text.StringBuilder();
                 foreach (KeyCode kc in keyCodes) {
-                    sb.Append(kc);
+                    switch(kc) {
+                        case KeyCode.Space:
+                            sb.Append("Spc");
+                            break;
+                        case KeyCode.Alpha0:
+                            sb.Append("0");
+                            break;
+                        case KeyCode.Alpha1:
+                            sb.Append("1");
+                            break;
+                        case KeyCode.Alpha2:
+                            sb.Append("2");
+                            break;
+                        case KeyCode.Alpha3:
+                            sb.Append("3");
+                            break;
+                        case KeyCode.Alpha4:
+                            sb.Append("4");
+                            break;
+                        case KeyCode.Alpha5:
+                            sb.Append("5");
+                            break;
+                        case KeyCode.Alpha6:
+                            sb.Append("6");
+                            break;
+                        case KeyCode.Alpha7:
+                            sb.Append("7");
+                            break;
+                        case KeyCode.Alpha8:
+                            sb.Append("8");
+                            break;
+                        case KeyCode.Alpha9:
+                            sb.Append("9");
+                            break;
+                        default:
+                            sb.Append(kc);
+                            break;
+                    }
                 }
                 bannerText.text = sb.ToString();
             }
