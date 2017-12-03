@@ -16,9 +16,6 @@ public class RhythmEngine : MonoBehaviour
         return tagged[0].GetComponent<RhythmEngine>();
     }
 
-    // Name of the music track to play.
-    public string musicTrack = "Music_1";
-
     // Allowed difference from the perfect beat.
     public float accuracy = 0.25f;
 
@@ -60,7 +57,7 @@ public class RhythmEngine : MonoBehaviour
 
     void Start()
     {
-        SoundManager.instance.PlayMusic(musicTrack);
+        SoundManager.instance.PlayMusic();
     }
 
     // AddMarching adds a new marching Unit. It will be allocated a KeyCode
@@ -117,7 +114,7 @@ public class RhythmEngine : MonoBehaviour
             Tracking tracking = entry.Value;
             KeyCode key = unit.keyCodes[tracking.index];
 
-            float sinceBeat = (SoundManager.instance.musicSource.time - unit.offset) % unit.interval;
+            float sinceBeat = (SoundManager.instance.GetCurrentTime() - unit.offset) % unit.interval;
             bool oldInBeat = tracking.inBeat;
             tracking.inBeat = sinceBeat < accuracy || sinceBeat > (unit.interval - accuracy);
 

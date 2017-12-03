@@ -4,6 +4,6 @@ using UnityEngine;
 
 public class TestScript : MonoBehaviour {	
 	public void onButtonPress() {
-		SoundManager.instance.PlayMusic("Music_1");
+		SoundManager.instance.PlayMusic();
 	}
 }
