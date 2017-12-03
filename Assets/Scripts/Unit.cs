@@ -14,7 +14,6 @@ public class Unit : MonoBehaviour
     public bool sequence = false;
     public List<KeyCode> keyCodes = null;
     public UnitGroup group = null;
-    public float scrollSpeed = 0.2f; // TODO get from world
     public Vector3 scrollDirection = new Vector3(-1.0f, 0.0f, 0.0f);
     public Vector3 inGroupTargetPosition = Vector3.zero;
     public float maxSpeed = 1.0f;
@@ -33,17 +32,6 @@ public class Unit : MonoBehaviour
     {
         keyCodes = new List<KeyCode>();
         health = startHealth;
-
-        print("Awake Unit");
-        Fight.Instantiated += OnInstantiated;
-        if (Fight.instantiated)
-        {
-            OnInstantiated(null, null);
-        }
-    }
-
-    private void OnInstantiated(object sender, EventArgs e)
-    {
         {
             Component[] components = GetComponentsInChildren(typeof(TextMeshPro));
             foreach (Component c in components)
@@ -61,7 +49,7 @@ public class Unit : MonoBehaviour
             foreach (Component c in components)
             {
 
-                if (c.gameObject.tag.Equals("BannerMan"))
+                if (c.gameObject.tag == "BannerMan")
                 {
                     bannerManAnimator = (Animator)c;
                 }
@@ -73,15 +61,8 @@ public class Unit : MonoBehaviour
         }
     }
 
-    string triggerNext;
-
     void Update()
     {
-
-        if (triggerNext != "")
-        {
-            bannerManAnimator.SetTrigger("Alert");
-        }
 
         float t = Time.time;
         Vector3 newPosition = Vector3.zero;
@@ -161,17 +142,12 @@ public class Unit : MonoBehaviour
         }
     }
 
-    public void OnBeatStart()
+    public void OnBeatWindup()
     {
         // Time window for unit key presses started
         if (bannerManAnimator != null)
         {
-            triggerNext = "Alert";
             bannerManAnimator.SetTrigger("Alert");
-        }
-        else
-        {
-            print("BannerMan is null");
         }
 
         if (soldierAnimators != null)
@@ -181,10 +157,10 @@ public class Unit : MonoBehaviour
                 a.SetTrigger("Alert");
             }
         }
-        else
-        {
-            print("SoldierMan is null");
-        }
+    }
+
+    public void OnBeatStart()
+    {
     }
 
     public void OnBeatEnd(bool success)

@@ -5,147 +5,54 @@ using UnityEngine;
 using System.Timers;
 using System.Runtime.InteropServices;
 
+[System.Serializable]
+public struct UnitSpec
+{
+    public GameObject prefab;
+    public float spawnTime;
+    public float interval;
+    public float offset;
+    public bool sequence;
+    public Vector3 scrollDirection;
+}
+
 public class Fight : MonoBehaviour
 {
-    public static EventHandler<EventArgs> Instantiated;
-    public static bool instantiated;
+    public float minY = 0.0f;
+    public float maxY = 4.0f;
+    public UnitSpec[] unitSpecs;
 
-    public GameObject pikemanUnit;
+    private List<Unit> units = null;
+
+    void Awake()
+    {
+        units = new List<Unit>();
+        foreach (UnitSpec spec in unitSpecs) {
+            // Assume Unit Specification is properly initialized
+            units.Add(SpawnUnit(spec));
+            //new Vector3(-6.71f, -3.38f, 0.0f)
+        }
+    }
 
     void Start()
     {
         SoundManager.instance.PlayMusic();
-        SpawnUnit(UnitPosition.Initial);
-        print("Start Fight");
-        if (Instantiated != null)
-        {
-            Instantiated(new object(), EventArgs.Empty);
-        }
-        instantiated = true;
 
-        //SoundManager.instance.addMusicLayer();
-        //SoundManager.instance.addMusicLayer();
-        //SoundManager.instance.addMusicLayer();
-        //SoundManager.instance.addMusicLayer();
+        foreach (Unit u in units) {
+            RhythmEngine.GetTagged().AddMarching(u);
+        }
     }
 
-    float nextTime = 32;
-
-    bool test = true;
-
-    void Update()
+    Unit SpawnUnit(UnitSpec spec)
     {
-        var time = SoundManager.instance.GetCurrentTime();
-        //Debug.Log("Current time: " + time);
+        GameObject obj = Instantiate(spec.prefab, transform, false);
+        obj.transform.position += new Vector3(0.0f, UnityEngine.Random.Range(minY, maxY), 0.0f) + -spec.scrollDirection * spec.spawnTime;
+        Unit unit = obj.GetComponent<Unit>();
+        unit.scrollDirection = spec.scrollDirection;
+        unit.interval = spec.interval;
+        unit.offset = spec.offset;
+        unit.sequence = spec.sequence;
 
-        if (test)
-        {
-            // TODO remove when fixed
-            SpawnUnit();
-            test = false;
-        }
-        if (time > nextTime)
-        {
-            SpawnUnit();
-            nextTime += 32;
-        }
-
-        //print("Time: " + time);
-    }
-
-    int lastOffset;
-
-    void SpawnUnit(UnitPosition position = UnitPosition.Farthest)
-    {
-        GameObject newObject = pikemanUnit;
-        Unit unit = newObject.SetSpawnPositionAt(position);
-
-        //GCHandle objHandle = GCHandle.Alloc(unit,GCHandleType.WeakTrackResurrection);
-        //int address = GCHandle.ToIntPtr(objHandle).ToInt32(); 
-        //Debug.Log("Address: " + address);
-        unit.interval = 2;
-
-        if (lastOffset == 1)
-        {
-            unit.offset = 0;
-        }
-        else
-        {
-            unit.offset = 1;
-        }
-
-        lastOffset = (int)unit.offset;
-
-        Instantiate(newObject);
-
-        try
-        {
-            RhythmEngine.GetTagged().AddMarching(unit);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine("Exception: " + e.Message);
-        }
-
-    }
-
-}
-
-
-public enum UnitPosition
-{
-    // Initial is your first unit, no scroll direction 
-    // and positioned in the left-center part of your screen
-    Initial,
-    Near,
-    NearCenter,
-    Center,
-    Far,
-    Farthest
-}
-
-public static class GameObjectExtensions
-{
-    public static Unit SetSpawnPositionAt(this GameObject gm, UnitPosition position)
-    {
-        var positionVector = new Vector3();
-        positionVector.z = (float)-5;
-
-        var scaleVector = new Vector3();
-        scaleVector.z = 0;
-
-        if (position == UnitPosition.Initial)
-        {
-            positionVector.x = -6.71f;
-            positionVector.y = -3.38f;
-
-            scaleVector.x = 0.3f;
-            scaleVector.y = 0.3f;
-        }
-        else if (position == UnitPosition.Farthest)
-        {
-            scaleVector.x = 0.3f;
-            scaleVector.y = 0.3f;
-
-            // 10 is approx. exactly offscreen, will immedicately enter
-            positionVector.x = 10;
-            positionVector.y = -2;
-        }
-
-        gm.transform.position = positionVector;
-        gm.transform.localScale = scaleVector;
-
-        var script = gm.GetComponent<Unit>();
-
-        if (position == UnitPosition.Initial)
-        {
-            script.scrollDirection = new Vector3(0, 0, 0);    
-        }
-        else
-        {
-            script.scrollDirection = new Vector3(-2, 0, 0);    
-        }
-
-        return script;
+        return unit;
     }
 }
