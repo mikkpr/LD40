@@ -63,11 +63,22 @@ public class ScrollingScript : MonoBehaviour
         }
     }
 
+    public static bool Move { get; set; }
     public static float DistanceTravelled { get; private set; }
     public static EventHandler<DistanceEventArgs> MarkPassed;
 
     void Update()
     {
+        if (!Move && Time.time > 2.0)
+        {
+            Move = true;
+        }
+
+        if (!Move)
+        {
+            return;
+        }
+
         // Movement
         Vector3 movement = new Vector3(speed.x * direction.x, speed.y * direction.y, 0);
 
