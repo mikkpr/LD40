@@ -100,11 +100,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startHealth: 3
+  health: 0
   interval: 1
+  offset: 0
   keyCodes: 
   group: {fileID: 0}
   scrollSpeed: 0.2
   scrollDirection: {x: -1, y: 0, z: 0}
+  inGroupTargetPosition: {x: 0, y: 0, z: 0}
+  maxSpeed: 1
+  globalYToZOffset: 2
+  yToZ: -0.5
 --- !u!212 &212102965931704698
 SpriteRenderer:
   m_ObjectHideFlags: 1

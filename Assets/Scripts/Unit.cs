@@ -13,10 +13,13 @@ public class Unit : MonoBehaviour {
     public float scrollSpeed = 0.2f; // TODO get from world
     public Vector3 scrollDirection = new Vector3(-1.0f, 0.0f, 0.0f);
     public Vector3 inGroupTargetPosition = Vector3.zero;
-
     public float maxSpeed = 1.0f;
 
+    public float globalYToZOffset = 2.0f; // TODO get this from world
+    public float yToZ = -0.5f;
+
     private UnitGroup candidateGroup = null;
+    private bool followInGroupTarget = false;
 
     //private float lastHealthLostTime = float.NegativeInfinity;
 
@@ -26,18 +29,26 @@ public class Unit : MonoBehaviour {
     }
 
     void Update () {
+        Vector3 newPosition = Vector3.zero;
+
         if (group == null) {
-            Vector3 position = transform.position;
-            transform.position += scrollDirection * Time.deltaTime;
+            newPosition = transform.position + scrollDirection * Time.deltaTime;
             //lastHealthLostTime = Time.time + 5.0f;
         } else {
-            transform.position = Vector3.Lerp(transform.position, inGroupTargetPosition, Time.deltaTime * maxSpeed);
+            if (followInGroupTarget) {
+                newPosition = Vector3.Lerp(transform.position, inGroupTargetPosition, Time.deltaTime * maxSpeed);
+            }
 
             //if (lastHealthLostTime < Time.time) {
             //    OnBeatEnd(false);
             //    lastHealthLostTime = Time.time + 5.0f;
             //}
         }
+
+        // Set depth according to Y position
+        newPosition.z = (globalYToZOffset - newPosition.y) * yToZ;
+
+        transform.position = newPosition;
     }
 
     public void OnBeatStart() {
@@ -90,6 +101,11 @@ public class Unit : MonoBehaviour {
 
     public void OnOutOfBeat() {
         // Keys were pressed out of time window
+    }
+
+    public void SetInGroupTarget(Vector3 target) {
+        inGroupTargetPosition = target;
+        followInGroupTarget = true;
     }
 
     private void OnTriggerEnter2D(Collider2D other) {

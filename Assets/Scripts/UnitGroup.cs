@@ -29,10 +29,11 @@ public class UnitGroup : MonoBehaviour {
                 // Update targets for units in group
                 for (int i = 0; i < unitList.Count; ++i) {
                     Unit u = unitList[i];
-                    float widthDelta = bboxWidth / (u.startHealth + 1);
-                    float localX = bboxMin.x + (u.health + 1) * widthDelta;
+                    float widthDelta = bboxWidth / (u.startHealth - 1);
+                    float localX = bboxMin.x + (u.health - 1) * widthDelta;
                     float localY = bboxMin.y + (i + 1) * heightDelta;
-                    u.inGroupTargetPosition = transform.TransformPoint(new Vector3(localX, localY, -transform.position.z));
+                    Vector3 localPosition = new Vector3(localX, localY, -col.transform.position.z);
+                    u.SetInGroupTarget(localPosition);
                 }
             }
 
