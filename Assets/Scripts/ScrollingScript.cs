@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 /// <summary>
 /// Parallax scrolling script that should be assigned to a layer
@@ -62,13 +63,13 @@ public class ScrollingScript : MonoBehaviour
         }
     }
 
+    public static float DistanceTravelled { get; private set; }
+    public static EventHandler<DistanceEventArgs> MarkPassed;
+
     void Update()
     {
         // Movement
-        Vector3 movement = new Vector3(
-          speed.x * direction.x,
-          speed.y * direction.y,
-          0);
+        Vector3 movement = new Vector3(speed.x * direction.x, speed.y * direction.y, 0);
 
         movement *= Time.deltaTime;
         transform.Translate(movement);
@@ -77,6 +78,19 @@ public class ScrollingScript : MonoBehaviour
         if (isLinkedToCamera)
         {
             Camera.main.transform.Translate(movement);
+        }
+
+        // We have several GameObjects that call this movement script,
+        // search for the one that has the distance tag (Foreground)
+        if (gameObject.tag.Equals("Distance"))
+        {
+            DistanceTravelled += Mathf.Abs(movement.x);
+
+            // Call event handler if we've moved 25 units and the event has a handler attached
+            if (DistanceTravelled % 25 < 1 && MarkPassed != null)
+            {
+                MarkPassed(null, new DistanceEventArgs { Distance = DistanceTravelled });
+            }
         }
 
         // 4 - Loop
@@ -127,4 +141,9 @@ public static class RendererExtensions
         Plane[] planes = GeometryUtility.CalculateFrustumPlanes(camera);
         return GeometryUtility.TestPlanesAABB(planes, renderer.bounds);
     }
+}
+
+public class DistanceEventArgs : EventArgs
+{
+    public float Distance { get; set; }
 }

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Army
   - RhythmEngine
+  - Distance
   layers:
   - Default
   - TransparentFX
