@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SoundManager : MonoBehaviour {
     public AudioSource efxSource;
@@ -7,10 +8,13 @@ public class SoundManager : MonoBehaviour {
     public List<AudioSource> musicSources = new List<AudioSource> ();
 
     public List<AudioClip> musicLayers = new List<AudioClip> ();
+
+    public AudioSource mainMenuSource;
+    public AudioClip mainMenuClip;
     public static SoundManager instance;
 
     public int activeLayers = 1;
-    private int maxLayers = 5;
+    public int maxLayers = 5;
 
     private float volumeScale = 100.0f;
     private float musicVolumeScale = 100.0f;
@@ -37,10 +41,20 @@ public class SoundManager : MonoBehaviour {
         efxSource.Play ();
     }
 
+    public void PlayMainMenuTheme () {
+        mainMenuSource.clip = mainMenuClip;
+        mainMenuSource.Play ();
+    }
+
+    public void StopMainMenuTheme () {
+        mainMenuSource.clip = null;
+        mainMenuSource.Stop ();
+    }
+
     public void PlayMusic () {
         for (int i = 0; i < musicSources.Count; i++) {
             AudioSource source = musicSources[i];
-            source.clip = musicLayers[0];
+            source.clip = musicLayers[i];
             source.Play ();
             if (i > 0) {
                 source.volume = 0;
@@ -58,12 +72,14 @@ public class SoundManager : MonoBehaviour {
 
     public void SetVolume (float scale) {
         volumeScale = scale;
+        float actualMusicScale = (volumeScale * musicVolumeScale / 100 / 100);
         efxSource.volume = (volumeScale / 100);
         for (int i = 0; i < musicSources.Count; i++) {
-            musicSources[i].volume = (volumeScale * musicVolumeScale / 100 / 100);
+            musicSources[i].volume = actualMusicScale;
             if ((i + 1) > activeLayers) {
                 musicSources[i].volume = 0;
             }
+            mainMenuSource.volume = actualMusicScale;
         }
     }
 
@@ -77,8 +93,9 @@ public class SoundManager : MonoBehaviour {
 
     public void SetMusicVolume (float scale) {
         musicVolumeScale = scale;
+        float actualMusicScale = (volumeScale * musicVolumeScale / 100 / 100);
         for (int i = 0; i < musicSources.Count; i++) {
-            musicSources[i].volume = (volumeScale * musicVolumeScale / 100 / 100);
+            musicSources[i].volume = actualMusicScale;
         }
     }
 
@@ -87,13 +104,18 @@ public class SoundManager : MonoBehaviour {
     }
 
     public void Update () {
+        Debug.Log ("current layers: " + activeLayers.ToString ());
         for (int i = 0; i < musicSources.Count; i++) {
             AudioSource source = musicSources[i];
             if (source.volume == 0 && (i + 1) <= activeLayers) {
+                Debug.Log ("Activating new layer");
                 source.volume = (volumeScale * musicVolumeScale / 100 / 100);
             } else if (source.volume > 0 && (i + 1) > activeLayers) {
+                Debug.Log ("Deactivating layer");
                 source.volume = 0;
             }
         }
+        Debug.Log ("----------------");
+        Debug.Log ("----------------");
     }
 }

@@ -9,7 +9,7 @@ public class Fight : MonoBehaviour
 
     void Start()
     {
-        ScrollingScript.MarkPassed += OnMarkPased;
+        ScrollingScript.MarkPassed += OnMarkPass;
     }
 
     void OnDestroy()
@@ -22,8 +22,9 @@ public class Fight : MonoBehaviour
 
     }
 
-    void OnMarkPased(object sender, DistanceEventArgs e)
+    void OnMarkPass(object sender, DistanceEventArgs e)
     {
+        print("MarkPass");
         pikemanUnit.SetSpawnPositionAt(UnitPosition.Farthest);
         Instantiate(pikemanUnit);
     }
@@ -45,7 +46,6 @@ public static class GameObjectExtensions
 {
     public static void SetSpawnPositionAt(this GameObject gm, UnitPosition position)
     {
-        Debug.Log("spawn");
         var positionVector = new Vector3();
         positionVector.z = (float)-5;
 
