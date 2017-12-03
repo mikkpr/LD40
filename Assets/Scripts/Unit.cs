@@ -7,6 +7,7 @@ public class Unit : MonoBehaviour {
     public int startHealth = 3;
     public int health = 0;
     public float interval = 1.0f;
+    public float offset = 0.0f;
     public List<KeyCode> keyCodes = null;
     public UnitGroup group = null;
     public float scrollSpeed = 0.2f; // TODO get from world

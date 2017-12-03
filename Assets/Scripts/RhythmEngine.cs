@@ -117,7 +117,7 @@ public class RhythmEngine : MonoBehaviour
             Tracking tracking = entry.Value;
             KeyCode key = unit.keyCodes[tracking.index];
 
-            float sinceBeat = SoundManager.instance.musicSource.time % unit.interval;
+            float sinceBeat = (SoundManager.instance.musicSource.time - unit.offset) % unit.interval;
             bool oldInBeat = tracking.inBeat;
             tracking.inBeat = sinceBeat < accuracy || sinceBeat > (unit.interval - accuracy);
 
