@@ -31,11 +31,19 @@ public class Fight : MonoBehaviour
 
     float nextTime = 32;
 
+    bool test = true;
+
     void Update()
     {
         var time = SoundManager.instance.GetCurrentTime();
         //Debug.Log("Current time: " + time);
 
+        if (test)
+        {
+            // TODO remove when fixed
+            SpawnUnit();
+            test = false;
+        }
         if (time > nextTime)
         {
             SpawnUnit();

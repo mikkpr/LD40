@@ -266,24 +266,26 @@ public class Unit : MonoBehaviour
         followInGroupTarget = true;
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    void OnTriggerEnter2D(Collider2D other)
     {
         if (candidateGroup != null)
         {
             return;
         }
+
         if (other.gameObject.tag == "Army")
         {
             candidateGroup = other.gameObject.GetComponent<UnitGroup>();
         }
     }
 
-    private void OnTriggerExit2D(Collider2D other)
+    void OnTriggerExit2D(Collider2D other)
     {
         if (candidateGroup == null)
         {
             return;
         }
+
         if (other.gameObject.tag == "Army")
         {
             candidateGroup = null;
