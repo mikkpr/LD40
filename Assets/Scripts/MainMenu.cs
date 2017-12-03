@@ -29,6 +29,8 @@ public class MainMenu : MonoBehaviour
 
         volumeSlider.onValueChanged.AddListener(VolumeValueChange);
         musicVolumeSlider.onValueChanged.AddListener(MusicVolumeValueChange);
+		
+		SoundManager.instance.PlayMainMenuTheme();
     }
 
     void ShowOptionsPanel()
