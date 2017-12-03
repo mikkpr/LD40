@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Unit : MonoBehaviour {
 
@@ -21,28 +22,34 @@ public class Unit : MonoBehaviour {
 
     private UnitGroup candidateGroup = null;
     private bool followInGroupTarget = false;
-    private TextMesh bannerText = null;
+    private TextMeshPro bannerText = null;
     private float lastBannerTextUpdate = float.NegativeInfinity;
     private Animator bannerManAnimator = null;
+    private List<Animator> soldierAnimators = null;
+
+    private float lastBeatTime = float.NegativeInfinity;
+    private bool beatOn = false;
 
     void Awake() {
         keyCodes = new List<KeyCode>();
         health = startHealth;
         {
-            Component[] components = GetComponentsInChildren(typeof(TextMesh));
+            Component[] components = GetComponentsInChildren(typeof(TextMeshPro));
             foreach (Component c in components) {
                 if (c.gameObject.tag == "BannerText") {
-                    bannerText = (TextMesh)c;
+                    bannerText = (TextMeshPro)c;
                     break;
                 }
             }
         }
         {
+            soldierAnimators = new List<Animator>();
             Component[] components = GetComponentsInChildren(typeof(Animator));
             foreach (Component c in components) {
                 if (c.gameObject.tag == "BannerMan") {
                     bannerManAnimator = (Animator)c;
-                    break;
+                } else {
+                    soldierAnimators.Add((Animator)c);
                 }
             }
         }
@@ -80,12 +87,31 @@ public class Unit : MonoBehaviour {
 
             lastBannerTextUpdate = t + bannerTextUpdateDelta;
         }
+
+        if (lastBeatTime < t) {
+            if (lastBeatTime > 0.0f) {
+                if (beatOn) {
+                    OnBeatStart();
+                } else {
+                    OnBeatEnd(true);
+                }
+
+                beatOn = !beatOn;
+            }
+
+            lastBeatTime = t + 5.0f;
+        }
     }
 
     public void OnBeatStart() {
         // Time window for unit key presses started
         if (bannerManAnimator != null) {
-            bannerManAnimator.SetBool("Alert", true);
+            bannerManAnimator.SetTrigger("Alert");
+        }
+        if (soldierAnimators != null) {
+            foreach (Animator a in soldierAnimators) {
+                a.SetTrigger("Alert");
+            }
         }
     }
 
@@ -126,8 +152,10 @@ public class Unit : MonoBehaviour {
             }
         }
 
-        if (bannerManAnimator != null) {
-            bannerManAnimator.SetBool("Alert", false);
+        if (soldierAnimators != null) {
+            foreach (Animator a in soldierAnimators) {
+                a.SetTrigger("Stumble");
+            }
         }
     }
 
