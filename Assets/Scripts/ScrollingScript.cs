@@ -107,10 +107,10 @@ public class ScrollingScript : MonoBehaviour
             if (DistanceTravelled % eventInterval < 1 && MarkPassed != null)
             {
                 int currentDistance = (int)DistanceTravelled;
-                if (!currentDistance.Equals(lastSentDistance))
+                if (!currentDistance.Equals(lastSentDistance) && currentDistance != 0)
                 {
-                    MarkPassed(null, new DistanceEventArgs { Distance = lastSentDistance });
                     lastSentDistance = currentDistance;
+                    MarkPassed(null, new DistanceEventArgs { Distance = lastSentDistance });
                 }
             }
         }
@@ -167,5 +167,7 @@ public static class RendererExtensions
 
 public class DistanceEventArgs : EventArgs
 {
+    public float X { get; set; }
+
     public float Distance { get; set; }
 }
