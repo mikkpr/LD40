@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using System.Timers;
+using System.Runtime.InteropServices;
 
 public class Fight : MonoBehaviour
 {
@@ -23,7 +24,7 @@ public class Fight : MonoBehaviour
     void Update()
     {
         var time = SoundManager.instance.GetCurrentTime();
-        Debug.Log("Current time: " + time);
+        //Debug.Log("Current time: " + time);
 
         if (time > nextTime)
         {
@@ -34,10 +35,22 @@ public class Fight : MonoBehaviour
 
     void SpawnUnit()
     {
-        Unit unit = pikemanUnit.SetSpawnPositionAt(UnitPosition.Farthest);
-        RhythmEngine.GetTagged().AddMarching(unit);
+        GameObject newObject = pikemanUnit;
+        Unit unit = newObject.SetSpawnPositionAt(UnitPosition.Farthest);
 
-        Instantiate(pikemanUnit);
+        //GCHandle objHandle = GCHandle.Alloc(unit,GCHandleType.WeakTrackResurrection);
+        //int address = GCHandle.ToIntPtr(objHandle).ToInt32(); 
+        //Debug.Log("Address: " + address);
+        try
+        {
+            RhythmEngine.GetTagged().AddMarching(unit);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Exception: " + e.Message);
+        }
+
+        Instantiate(newObject);
     }
 
 }
