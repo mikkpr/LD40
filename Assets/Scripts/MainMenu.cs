@@ -56,6 +56,7 @@ public class MainMenu : MonoBehaviour
 
     public void OnStartButtonPress()
     {
+        SoundManager.instance.StopMainMenuTheme();
         SceneManager.LoadScene("Fight");
     }
 
