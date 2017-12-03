@@ -5,12 +5,19 @@ using UnityEngine;
 public class RhythmTestScript : MonoBehaviour
 {
     public Unit[] units;
+    public Boss boss;
 
     void Start()
     {
+        RhythmEngine rm = RhythmEngine.GetTagged();
         foreach (Unit unit in units)
         {
-            RhythmEngine.GetTagged().AddMarching(unit);
+            rm.AddMarching(unit);
+        }
+        if (boss != null)
+        {
+            rm.SetBoss(boss);
+            rm.BossChallenge(boss.challenges[0]);
         }
     }
 }
