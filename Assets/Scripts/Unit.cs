@@ -32,29 +32,6 @@ public class Unit : MonoBehaviour {
         keyCodes = new List<KeyCode>();
         health = startHealth;
 
-        //{
-        //    Component[] components = GetComponentsInChildren(typeof(TextMeshPro));
-        //    foreach (Component c in components) {
-        //        print("C1: " + c.gameObject.tag);
-        //        if (c.gameObject.tag == "BannerText") {
-        //            bannerText = (TextMeshPro)c;
-        //            break;
-        //        }
-        //    }
-        //}
-        //{
-        //    soldierAnimators = new List<Animator>();
-        //    Component[] components = GetComponentsInChildren(typeof(Animator));
-        //    foreach (Component c in components) {
-        //        print("C2: " + c.gameObject.tag);
-        //        if (c.gameObject.tag == "BannerMan") {
-        //            bannerManAnimator = (Animator)c;
-        //        } else {
-        //            soldierAnimators.Add((Animator)c);
-        //        }
-        //    }
-        //}
-
         print("Awake Unit");
         Fight.Instantiated += OnInstantiated;
         if (Fight.instantiated)
@@ -184,8 +161,6 @@ public class Unit : MonoBehaviour {
 
         if (soldierAnimators != null) {
             foreach (Animator a in soldierAnimators) {
-                bool isActive = a.gameObject.activeSelf;
-                print("a IsActive: " + isActive);
                 a.SetTrigger("Alert");
             }
         } else {
