@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
@@ -54,6 +55,8 @@ public class MainMenu : MonoBehaviour
     public void OnStartButtonPress()
     {
         Debug.Log("Pressed Start button");
+        SceneManager.LoadScene("Fight");
+
     }
 
     public void OnOptionsButtonPress()
