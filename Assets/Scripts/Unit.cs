@@ -27,9 +27,6 @@ public class Unit : MonoBehaviour {
     private Animator bannerManAnimator = null;
     private List<Animator> soldierAnimators = null;
 
-    private float lastBeatTime = float.NegativeInfinity;
-    private bool beatOn = false;
-
     void Awake() {
         keyCodes = new List<KeyCode>();
         health = startHealth;
@@ -86,20 +83,6 @@ public class Unit : MonoBehaviour {
             }
 
             lastBannerTextUpdate = t + bannerTextUpdateDelta;
-        }
-
-        if (lastBeatTime < t) {
-            if (lastBeatTime > 0.0f) {
-                if (beatOn) {
-                    OnBeatStart();
-                } else {
-                    OnBeatEnd(true);
-                }
-
-                beatOn = !beatOn;
-            }
-
-            lastBeatTime = t + 5.0f;
         }
     }
 
