@@ -4,7 +4,8 @@ using UnityEngine;
 using TMPro;
 using System;
 
-public class Unit : MonoBehaviour {
+public class Unit : MonoBehaviour
+{
 
     public int startHealth = 3;
     public int health = 0;
@@ -28,7 +29,8 @@ public class Unit : MonoBehaviour {
     private Animator bannerManAnimator = null;
     private List<Animator> soldierAnimators = null;
 
-    void Awake() {
+    void Awake()
+    {
         keyCodes = new List<KeyCode>();
         health = startHealth;
 
@@ -73,21 +75,26 @@ public class Unit : MonoBehaviour {
 
     string triggerNext;
 
-    void Update () {
-        
+    void Update()
+    {
+
         if (triggerNext != "")
         {
             bannerManAnimator.SetTrigger("Alert");
         }
-            
+
         float t = Time.time;
         Vector3 newPosition = Vector3.zero;
 
         // Change position
-        if (group == null) {
+        if (group == null)
+        {
             newPosition = transform.position + scrollDirection * Time.deltaTime;
-        } else {
-            if (followInGroupTarget) {
+        }
+        else
+        {
+            if (followInGroupTarget)
+            {
                 newPosition = Vector3.Lerp(transform.position, inGroupTargetPosition, Time.deltaTime * maxSpeed);
             }
         }
@@ -100,11 +107,15 @@ public class Unit : MonoBehaviour {
         transform.position = newPosition;
 
         // Update banner, if exists
-        if (lastBannerTextUpdate < t) {
-            if (bannerText != null && keyCodes != null) {
+        if (lastBannerTextUpdate < t)
+        {
+            if (bannerText != null && keyCodes != null)
+            {
                 System.Text.StringBuilder sb = new System.Text.StringBuilder();
-                foreach (KeyCode kc in keyCodes) {
-                    switch(kc) {
+                foreach (KeyCode kc in keyCodes)
+                {
+                    switch (kc)
+                    {
                         case KeyCode.Space:
                             sb.Append("Spc");
                             break;
@@ -150,51 +161,71 @@ public class Unit : MonoBehaviour {
         }
     }
 
-    public void OnBeatStart() {
+    public void OnBeatStart()
+    {
         // Time window for unit key presses started
-        if (bannerManAnimator != null) {
+        if (bannerManAnimator != null)
+        {
             triggerNext = "Alert";
             bannerManAnimator.SetTrigger("Alert");
-        } else {
+        }
+        else
+        {
             print("BannerMan is null");
         }
 
-        if (soldierAnimators != null) {
-            foreach (Animator a in soldierAnimators) {
+        if (soldierAnimators != null)
+        {
+            foreach (Animator a in soldierAnimators)
+            {
                 a.SetTrigger("Alert");
             }
-        } else {
+        }
+        else
+        {
             print("SoldierMan is null");
         }
     }
 
-    public void OnBeatEnd(bool success) {
-        if (health <= 0) {
+    public void OnBeatEnd(bool success)
+    {
+        if (health <= 0)
+        {
             // This unit is already dismissed
             return;
         }
 
         // Time window for unit key presses ended
-        if (success) {
+        if (success)
+        {
             // This unit is successful
-            if (group == null) {
+            if (group == null)
+            {
                 // Not in the army yet
-                if (candidateGroup != null) {
+                if (candidateGroup != null)
+                {
                     // Join the army
                     candidateGroup.AddUnit(this);
                     group = candidateGroup;
                 }
-            } else {
+            }
+            else
+            {
                 // We are in the army
                 // Keep up the good work
             }
-        } else {
+        }
+        else
+        {
             // This unit failed
-            if (group != null) {
-                if (health > 0) {
+            if (group != null)
+            {
+                if (health > 0)
+                {
                     // Reduce this unit's health
                     health -= 1;
-                    if (health == 0) {
+                    if (health == 0)
+                    {
                         // This unit is dismissed from the army
                         group.RemoveUnit(this);
                         group = null;
@@ -205,44 +236,56 @@ public class Unit : MonoBehaviour {
             }
         }
 
-        if (soldierAnimators != null) {
-            foreach (Animator a in soldierAnimators) {
+        if (soldierAnimators != null)
+        {
+            foreach (Animator a in soldierAnimators)
+            {
                 a.SetTrigger("Stumble");
             }
         }
     }
 
-    public void OnBeatHit() {
+    public void OnBeatHit()
+    {
         // Input was pressed in time window
     }
 
-    public void OnBeatDouble() {
+    public void OnBeatDouble()
+    {
         // Double input was given in time window
     }
 
-    public void OnOutOfBeat() {
+    public void OnOutOfBeat()
+    {
         // Keys were pressed out of time window
     }
 
-    public void SetInGroupTarget(Vector3 target) {
+    public void SetInGroupTarget(Vector3 target)
+    {
         inGroupTargetPosition = target;
         followInGroupTarget = true;
     }
 
-    private void OnTriggerEnter2D(Collider2D other) {
-        if (candidateGroup != null) {
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (candidateGroup != null)
+        {
             return;
         }
-        if (other.gameObject.tag == "Army") {
+        if (other.gameObject.tag == "Army")
+        {
             candidateGroup = other.gameObject.GetComponent<UnitGroup>();
         }
     }
 
-    private void OnTriggerExit2D(Collider2D other) {
-        if (candidateGroup == null) {
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (candidateGroup == null)
+        {
             return;
         }
-        if (other.gameObject.tag == "Army") {
+        if (other.gameObject.tag == "Army")
+        {
             candidateGroup = null;
         }
     }
