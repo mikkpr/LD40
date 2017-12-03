@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System;
 
 public class Unit : MonoBehaviour {
 
@@ -30,10 +31,47 @@ public class Unit : MonoBehaviour {
     void Awake() {
         keyCodes = new List<KeyCode>();
         health = startHealth;
+
+        //{
+        //    Component[] components = GetComponentsInChildren(typeof(TextMeshPro));
+        //    foreach (Component c in components) {
+        //        print("C1: " + c.gameObject.tag);
+        //        if (c.gameObject.tag == "BannerText") {
+        //            bannerText = (TextMeshPro)c;
+        //            break;
+        //        }
+        //    }
+        //}
+        //{
+        //    soldierAnimators = new List<Animator>();
+        //    Component[] components = GetComponentsInChildren(typeof(Animator));
+        //    foreach (Component c in components) {
+        //        print("C2: " + c.gameObject.tag);
+        //        if (c.gameObject.tag == "BannerMan") {
+        //            bannerManAnimator = (Animator)c;
+        //        } else {
+        //            soldierAnimators.Add((Animator)c);
+        //        }
+        //    }
+        //}
+
+        print("Awake Unit");
+        Fight.Instantiated += OnInstantiated;
+        if (Fight.instantiated)
+        {
+            OnInstantiated(null, null);
+        }
+    }
+
+    private void OnInstantiated(object sender, EventArgs e)
+    {
         {
             Component[] components = GetComponentsInChildren(typeof(TextMeshPro));
-            foreach (Component c in components) {
-                if (c.gameObject.tag == "BannerText") {
+            foreach (Component c in components)
+            {
+                //print("C1: " + c.gameObject.tag);
+                if (c.gameObject.tag == "BannerText")
+                {
                     bannerText = (TextMeshPro)c;
                     break;
                 }
@@ -42,10 +80,17 @@ public class Unit : MonoBehaviour {
         {
             soldierAnimators = new List<Animator>();
             Component[] components = GetComponentsInChildren(typeof(Animator));
-            foreach (Component c in components) {
-                if (c.gameObject.tag == "BannerMan") {
+            foreach (Component c in components)
+            {
+
+                if (c.gameObject.tag.Equals("BannerMan"))
+                {
+                    //print("C2: " + c.gameObject.tag);
                     bannerManAnimator = (Animator)c;
-                } else {
+                    //print(bannerManAnimator);
+                }
+                else
+                {
                     soldierAnimators.Add((Animator)c);
                 }
             }

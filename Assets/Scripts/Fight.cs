@@ -7,17 +7,26 @@ using System.Runtime.InteropServices;
 
 public class Fight : MonoBehaviour
 {
-    public GameObject pikemanUnit;
+    public static EventHandler<EventArgs> Instantiated;
+    public static bool instantiated;
 
-    private void Awake()
-    {
-        SpawnUnit(UnitPosition.Initial);
-    }
+    public GameObject pikemanUnit;
 
     void Start()
     {
         SoundManager.instance.PlayMusic();
+        SpawnUnit(UnitPosition.Initial);
+        print("Start Fight");
+        if (Instantiated != null)
+        {
+            Instantiated(new object(), EventArgs.Empty);
+        }
+        instantiated = true;
 
+        SoundManager.instance.addMusicLayer();
+        SoundManager.instance.addMusicLayer();
+        SoundManager.instance.addMusicLayer();
+        SoundManager.instance.addMusicLayer();
     }
 
     float nextTime = 32;
@@ -59,6 +68,8 @@ public class Fight : MonoBehaviour
 
         lastOffset = (int)unit.offset;
 
+        Instantiate(newObject);
+
         try
         {
             RhythmEngine.GetTagged().AddMarching(unit);
@@ -68,7 +79,6 @@ public class Fight : MonoBehaviour
             Console.WriteLine("Exception: " + e.Message);
         }
 
-        Instantiate(newObject);
     }
 
 }
