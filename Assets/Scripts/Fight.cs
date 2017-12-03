@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using System.Timers;
 
 public class Fight : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class Fight : MonoBehaviour
 
     void Start()
     {
-        ScrollingScript.MarkPassed += OnMarkPass;
+        SoundManager.instance.PlayMusic();
     }
 
     void OnDestroy()
@@ -17,15 +18,25 @@ public class Fight : MonoBehaviour
 
     }
 
+    float nextTime = 32;
+
     void Update()
     {
+        var time = SoundManager.instance.GetCurrentTime();
+        Debug.Log("Current time: " + time);
 
+        if (time > nextTime)
+        {
+            SpawnUnit();
+            nextTime += 32;
+        }
     }
 
-    void OnMarkPass(object sender, DistanceEventArgs e)
+    void SpawnUnit()
     {
-        print("MarkPass");
-        pikemanUnit.SetSpawnPositionAt(UnitPosition.Farthest);
+        Unit unit = pikemanUnit.SetSpawnPositionAt(UnitPosition.Farthest);
+        RhythmEngine.GetTagged().AddMarching(unit);
+
         Instantiate(pikemanUnit);
     }
 
@@ -44,7 +55,7 @@ public enum UnitPosition
 
 public static class GameObjectExtensions
 {
-    public static void SetSpawnPositionAt(this GameObject gm, UnitPosition position)
+    public static Unit SetSpawnPositionAt(this GameObject gm, UnitPosition position)
     {
         var positionVector = new Vector3();
         positionVector.z = (float)-5;
@@ -62,10 +73,12 @@ public static class GameObjectExtensions
             positionVector.y = -2;
         }
 
+        gm.transform.position = positionVector;
+        gm.transform.localScale = scaleVector;
+
         var script = gm.GetComponent<Unit>();
         script.scrollDirection = new Vector3(-2, 0, 0);
 
-        gm.transform.position = positionVector;
-        gm.transform.localScale = scaleVector;
+        return script;
     }
 }

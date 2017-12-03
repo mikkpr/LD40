@@ -104,18 +104,19 @@ public class SoundManager : MonoBehaviour {
     }
 
     public void Update () {
-        Debug.Log ("current layers: " + activeLayers.ToString ());
+        // TODO Mikk: pls ära jäta sellist spämmi debug logisse, kui commitid
+        //Debug.Log ("current layers: " + activeLayers.ToString ());
         for (int i = 0; i < musicSources.Count; i++) {
             AudioSource source = musicSources[i];
             if (source.volume == 0 && (i + 1) <= activeLayers) {
-                Debug.Log ("Activating new layer");
+                //Debug.Log ("Activating new layer");
                 source.volume = (volumeScale * musicVolumeScale / 100 / 100);
             } else if (source.volume > 0 && (i + 1) > activeLayers) {
-                Debug.Log ("Deactivating layer");
+                //Debug.Log ("Deactivating layer");
                 source.volume = 0;
             }
         }
-        Debug.Log ("----------------");
-        Debug.Log ("----------------");
+        //Debug.Log ("----------------");
+        //Debug.Log ("----------------");
     }
 }
