@@ -5287,6 +5287,7 @@ MonoBehaviour:
   health: 0
   interval: 1
   offset: 0
+  sequence: 0
   keyCodes: 
   group: {fileID: 0}
   scrollSpeed: 0.2

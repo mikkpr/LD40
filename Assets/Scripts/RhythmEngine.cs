@@ -17,16 +17,29 @@ public class RhythmEngine : MonoBehaviour
     }
 
     // Allowed difference from the perfect beat.
-    public float accuracy = 0.25f;
+    public float singleAccuracy = 0.1f;
+    public float sequenceAccuracy = 0.25f;
 
     // KeyCodes that are allocated by the RhythmEngine to Units.
     public List<KeyCode> allowedKeys = null;
+
+    // KeyCode sequences that are allocated by the Rhythmengine to Units.
+    public List<KeyCodeSequence> allowedSequences = null;
 
     // Units that are following a rhythm.
     Dictionary<Unit, Tracking> units = null;
 
     // KeyCodes that are already allocated to some Units.
     HashSet<KeyCode> allocatedKeys = null;
+
+    // ListWrapper is required so that the Unity Editor can serialize a List of
+    // Lists to be filled.
+    // https://answers.unity.com/questions/289692/serialize-nested-lists.html
+    [System.Serializable]
+    public class KeyCodeSequence
+    {
+        public List<KeyCode> sequence = null;
+    }
 
     // Tracking is the rhythm tracking information for a Unit.
     class Tracking
@@ -65,27 +78,42 @@ public class RhythmEngine : MonoBehaviour
     // will be added to unit.KeyCodes.
     public void AddMarching(Unit unit)
     {
-        // TODO: KeyCode sequences.
-        KeyCode key = KeyCode.None; 
-
-        // As a special case, allocate the first allowed KeyCode to the first
-        // added Unit.
-        if (units.Count == 0)
+        List<KeyCode> keyCodes = new List<KeyCode>();
+        if (unit.sequence)
         {
-            key = allowedKeys[0];
-        }
-        // Otherwise allocate a random unused KeyCode to the unit.
-        else
-        {
-            // XXX: Will loop forever if all keys are allocated.
+            // XXX: Will loop forever if a key from all sequences is allocated.
             do
             {
-                key = allowedKeys[Random.Range(0, allowedKeys.Count)];
+                keyCodes = allowedSequences[Random.Range(0, allowedSequences.Count)].sequence;
             }
-            while (allocatedKeys.Contains(key));
+            while (allocatedKeys.Overlaps(keyCodes));
         }
-        allocatedKeys.Add(key);
-        unit.keyCodes.Add(key);
+        else
+        {
+            // As a special case, allocate the first allowed KeyCode to the
+            // first added Unit.
+            if (units.Count == 0)
+            {
+                keyCodes.Add(allowedKeys[0]);
+            }
+            // Otherwise allocate a random unused KeyCode to the unit.
+            else
+            {
+                // XXX: Will loop forever if all keys are allocated.
+                KeyCode key = KeyCode.None;
+                do
+                {
+                    key = allowedKeys[Random.Range(0, allowedKeys.Count)];
+                }
+                while (allocatedKeys.Contains(key));
+                keyCodes.Add(key);
+            }
+        }
+        foreach (KeyCode key in keyCodes)
+        {
+            allocatedKeys.Add(key);
+        }
+        unit.keyCodes.AddRange(keyCodes);
 
         // Start tracking the unit.
         units.Add(unit, new Tracking());
@@ -113,6 +141,7 @@ public class RhythmEngine : MonoBehaviour
             Unit unit = entry.Key;
             Tracking tracking = entry.Value;
             KeyCode key = unit.keyCodes[tracking.index];
+            float accuracy = unit.sequence ? sequenceAccuracy : singleAccuracy;
 
             float sinceBeat = (SoundManager.instance.GetCurrentTime() - unit.offset) % unit.interval;
             bool oldInBeat = tracking.inBeat;
