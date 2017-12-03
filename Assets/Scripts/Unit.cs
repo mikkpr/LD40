@@ -15,23 +15,34 @@ public class Unit : MonoBehaviour {
     public Vector3 scrollDirection = new Vector3(-1.0f, 0.0f, 0.0f);
     public Vector3 inGroupTargetPosition = Vector3.zero;
     public float maxSpeed = 1.0f;
-
     public float globalYToZOffset = 2.0f; // TODO get this from world
     public float yToZ = -0.5f;
+    public float bannerTextUpdateDelta = 0.5f;
 
     private UnitGroup candidateGroup = null;
     private bool followInGroupTarget = false;
+    private TextMesh bannerText = null;
+    private float lastBannerTextUpdate = float.NegativeInfinity;
 
     //private float lastHealthLostTime = float.NegativeInfinity;
 
     void Awake() {
         keyCodes = new List<KeyCode>();
         health = startHealth;
+        Component[] components = GetComponentsInChildren(typeof(TextMesh));
+        foreach (Component c in components) {
+            if (c.gameObject.tag == "BannerText") {
+                bannerText = (TextMesh)c;
+                break;
+            }
+        }
     }
 
     void Update () {
+        float t = Time.time;
         Vector3 newPosition = Vector3.zero;
 
+        // Change position
         if (group == null) {
             newPosition = transform.position + scrollDirection * Time.deltaTime;
             //lastHealthLostTime = Time.time + 5.0f;
@@ -40,16 +51,31 @@ public class Unit : MonoBehaviour {
                 newPosition = Vector3.Lerp(transform.position, inGroupTargetPosition, Time.deltaTime * maxSpeed);
             }
 
-            //if (lastHealthLostTime < Time.time) {
+            //if (lastHealthLostTime < t) {
             //    OnBeatEnd(false);
-            //    lastHealthLostTime = Time.time + 5.0f;
+            //    lastHealthLostTime = t + 5.0f;
             //}
         }
 
         // Set depth according to Y position
         newPosition.z = (globalYToZOffset - newPosition.y) * yToZ;
 
+        // TODO also adjust scale depending on depth
+
         transform.position = newPosition;
+
+        // Update banner, if exists
+        if (lastBannerTextUpdate < t) {
+            if (bannerText != null && keyCodes != null) {
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                foreach (KeyCode kc in keyCodes) {
+                    sb.Append(kc);
+                }
+                bannerText.text = sb.ToString();
+            }
+
+            lastBannerTextUpdate = t + bannerTextUpdateDelta;
+        }
     }
 
     public void OnBeatStart() {
