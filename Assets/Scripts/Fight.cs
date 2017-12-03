@@ -9,24 +9,25 @@ public class Fight : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("Start");
         original = transform.position;
+
+        ScrollingScript.MarkPassed += OnMarkPased;
+    }
+
+    void OnDestroy()
+    {
+        
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Debug.Log("Space down");
-            //SoundManager.instance.PlayMusic("Music_1");
-            transform.position = new Vector3(original.x + 1, original.y - 1);
-        }
-        else if (Input.GetKeyUp(KeyCode.Space))
-        {
-            Debug.Log("Space up");
-            transform.position = original;
-        }
-
+        
     }
+
+    void OnMarkPased(object sender, DistanceEventArgs e)
+    {
+        print("Marked past (distance: " + e.Distance + ") => do something");
+    }
+
 }
 

@@ -63,8 +63,14 @@ public class ScrollingScript : MonoBehaviour
         }
     }
 
+    // Distance passed at which events are sent out
+    // feel free to change this as you desire
+    int eventInterval = 25;
+
     public static bool Move { get; set; }
     public static float DistanceTravelled { get; private set; }
+    static int lastSentDistance;
+
     public static EventHandler<DistanceEventArgs> MarkPassed;
 
     void Update()
@@ -98,9 +104,14 @@ public class ScrollingScript : MonoBehaviour
             DistanceTravelled += Mathf.Abs(movement.x);
 
             // Call event handler if we've moved 25 units and the event has a handler attached
-            if (DistanceTravelled % 25 < 1 && MarkPassed != null)
+            if (DistanceTravelled % eventInterval < 1 && MarkPassed != null)
             {
-                MarkPassed(null, new DistanceEventArgs { Distance = DistanceTravelled });
+                int currentDistance = (int)DistanceTravelled;
+                if (!currentDistance.Equals(lastSentDistance))
+                {
+                    MarkPassed(null, new DistanceEventArgs { Distance = lastSentDistance });
+                    lastSentDistance = currentDistance;
+                }
             }
         }
 
