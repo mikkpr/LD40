@@ -20,6 +20,9 @@ public class RhythmEngine : MonoBehaviour
     public float singleAccuracy = 0.1f;
     public float sequenceAccuracy = 0.25f;
 
+    // Time before a note that the Boss starts its wind up.
+    public float bossWindup = 0.5f;
+
     // KeyCodes that are allocated by the RhythmEngine to Units.
     public List<KeyCode> allowedKeys = null;
 
@@ -29,8 +32,18 @@ public class RhythmEngine : MonoBehaviour
     // Units that are following a rhythm.
     Dictionary<Unit, Tracking> units = null;
 
-    // KeyCodes that are already allocated to some Units.
-    HashSet<KeyCode> allocatedKeys = null;
+    // KeyCodes that are already allocated to some Units. Use List instead of
+    // HashSet do that we can randomly sample elements from it.
+    List<KeyCode> allocatedKeys = null;
+
+    // The Boss being fought. If null then units are marching.
+    Boss boss = null;
+
+    // Parameters for the current Boss.Challenge.
+    Boss.Challenge challenge = null;
+    List<KeyCode> challengeKeys = null;
+    int challengeIndex = 0;
+    bool bossWinding = false;
 
     // ListWrapper is required so that the Unity Editor can serialize a List of
     // Lists to be filled.
@@ -65,7 +78,8 @@ public class RhythmEngine : MonoBehaviour
     void Awake()
     {
         units = new Dictionary<Unit, Tracking>();
-        allocatedKeys = new HashSet<KeyCode>();
+        allocatedKeys = new List<KeyCode>();
+        challengeKeys = new List<KeyCode>();
     }
 
     void Start()
@@ -82,11 +96,20 @@ public class RhythmEngine : MonoBehaviour
         if (unit.sequence)
         {
             // XXX: Will loop forever if a key from all sequences is allocated.
+            bool overlaps;
             do
             {
                 keyCodes = allowedSequences[Random.Range(0, allowedSequences.Count)].sequence;
+                overlaps = false;
+                foreach (KeyCode key in keyCodes)
+                {
+                    if (allocatedKeys.Contains(key))
+                    {
+                        overlaps = true;
+                    }
+                }
             }
-            while (allocatedKeys.Overlaps(keyCodes));
+            while (overlaps);
         }
         else
         {
@@ -109,10 +132,7 @@ public class RhythmEngine : MonoBehaviour
                 keyCodes.Add(key);
             }
         }
-        foreach (KeyCode key in keyCodes)
-        {
-            allocatedKeys.Add(key);
-        }
+        allocatedKeys.AddRange(keyCodes);
         unit.keyCodes.AddRange(keyCodes);
 
         // Start tracking the unit.
@@ -121,20 +141,12 @@ public class RhythmEngine : MonoBehaviour
 
     public void RemoveMarching(Unit unit)
     {
-        foreach (KeyCode key in unit.keyCodes)
-        {
-            allocatedKeys.Remove(key);
-        }
+        // Do not remove KeyCodes allocated to the Unit: we do not wish to
+        // reissue during a single level.
         units.Remove(unit);
     }
 
-    public void Clear()
-    {
-        units.Clear();
-        allocatedKeys.Clear();
-    }
-
-    void Update()
+    void MarchingUpdate()
     {
         foreach (KeyValuePair<Unit, Tracking> entry in units)
         {
@@ -149,14 +161,12 @@ public class RhythmEngine : MonoBehaviour
 
             if (!oldInBeat && tracking.inBeat)
             {
-                Debug.Log("OnBeatStart: " + key);
                 tracking.started = true;
                 tracking.pressed = 0;
                 unit.OnBeatStart();
             }
             else if (tracking.started && oldInBeat && !tracking.inBeat)
             {
-                Debug.Log("OnBeatEnd(" + (tracking.pressed == 1 ? "true" : "false") + "): " + key);
                 tracking.index = 0;
                 unit.OnBeatEnd(tracking.pressed == 1);
             }
@@ -165,7 +175,6 @@ public class RhythmEngine : MonoBehaviour
             {
                 if (!tracking.inBeat)
                 {
-                    Debug.Log("OnOutOfBeat: " + key);
                     unit.OnOutOfBeat();
                     return;
                 }
@@ -175,12 +184,10 @@ public class RhythmEngine : MonoBehaviour
                 {
                     if (tracking.pressed > 0)
                     {
-                        Debug.Log("OnBeatDouble: " + key);
                         unit.OnBeatDouble();
                     }
                     else
                     {
-                        Debug.Log("OnBeatHit: " + key);
                         unit.OnBeatHit();
                     }
                     tracking.pressed++;
@@ -189,5 +196,93 @@ public class RhythmEngine : MonoBehaviour
                 tracking.index = (tracking.index + 1) % unit.keyCodes.Count;
             }
         }
+    }
+
+    // Sets the RhythmEngine from marching mode into Boss fight mode.
+    public void SetBoss(Boss boss)
+    {
+        this.boss = boss;
+    }
+
+    // Issue a new Boss.Challenge. First the Boss plays some notes at the given
+    // offsets, then after length has passed, the units have to play the same
+    // notes. The actual keys for the offsets are chosen by RhythmEngine from
+    // the pool of allocated KeyCodes (even if the corresponding Units are no
+    // longer marching).
+    public void BossChallenge(Boss.Challenge challenge)
+    {
+        float time = SoundManager.instance.GetCurrentTime();
+
+        // Only accept a new challenge if we have a Boss and we are not already
+        // in one.
+        if (boss == null || InChallenge(time))
+        {
+            Debug.Log("Rejecting new challenge, boss:" + (boss != null) +
+                    ", challenge:" + (this.challenge != null));
+            return;
+        }
+        this.challenge = challenge;
+        challengeIndex = 0;
+        bossWinding = false;
+    }
+
+    bool InChallenge(float time)
+    {
+        return challenge != null && (time >= challenge.start) &&
+            (time < challenge.start + 2*challenge.length);
+    }
+
+    void BossUpdate()
+    {
+        float time = SoundManager.instance.GetCurrentTime();
+        if (!InChallenge(time))
+        {
+            return;
+        }
+        if (time < challenge.start + challenge.length)
+        {
+            // Bosses turn to pump out notes, if not done already.
+            if (challengeIndex < challenge.offsets.Count)
+            {
+                float offset = challenge.start + challenge.offsets[challengeIndex];
+                if (!bossWinding && time >= offset - bossWindup)
+                {
+                    bossWinding = true;
+                    boss.OnWindup();
+                }
+                if (time >= offset)
+                {
+                    // Choose a random allocated key for the challenge.
+                    KeyCode key = allocatedKeys[Random.Range(0, allocatedKeys.Count)];
+                    challengeKeys.Add(key);
+                    boss.OnNote(key);
+                    challengeIndex++;
+                }
+            }
+        }
+        else
+        {
+            // Our turn to follow what the Boss did.
+            // TODO
+        }
+    }
+
+    void Update()
+    {
+        if (boss == null)
+        {
+            MarchingUpdate();
+        }
+        else
+        {
+            BossUpdate();
+        }
+    }
+
+    public void Clear()
+    {
+        boss = null;
+        units.Clear();
+        allocatedKeys.Clear();
     }
 }
