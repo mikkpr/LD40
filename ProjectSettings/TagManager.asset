@@ -47,3 +47,6 @@ TagManager:
   - name: pikeman
     uniqueID: 2328778233
     locked: 0
+  - name: Foreground
+    uniqueID: 1558682963
+    locked: 0
