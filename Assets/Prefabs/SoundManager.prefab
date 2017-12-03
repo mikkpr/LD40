@@ -829,12 +829,11 @@ MonoBehaviour:
   - {fileID: 82610088505305504}
   - {fileID: 82400481080342298}
   musicLayers:
-  - {fileID: 8300000, guid: 06db45ee258ba48b7ab77102711d16ef, type: 3}
-  - {fileID: 8300000, guid: d3af46c7ff75f4966971bc27b60e5683, type: 3}
-  - {fileID: 8300000, guid: 3a9eff842686943a59375552ad2600a2, type: 3}
-  - {fileID: 8300000, guid: 3b27f89cb9130441b8934fca52ee9c64, type: 3}
-  - {fileID: 8300000, guid: 68b19e7ea5c664706b7b70c17bd74bac, type: 3}
+  - {fileID: 8300000, guid: f825a35dab5184f429758df1a73ade98, type: 3}
+  - {fileID: 8300000, guid: 28623ee55c2e248b48b0c8b3b719e01e, type: 3}
+  - {fileID: 8300000, guid: 72b080658677240f398b6d1d6c49e85e, type: 3}
+  - {fileID: 8300000, guid: bd4162b74a18541c69fc239e503bd8a4, type: 3}
+  - {fileID: 8300000, guid: 89cf1c204139f4c7ea1ba2225671581c, type: 3}
   mainMenuSource: {fileID: 82493834979246600}
   mainMenuClip: {fileID: 8300000, guid: c7aba93fd001f4eec977366611aed7ca, type: 3}
   activeLayers: 2
-  maxLayers: 5

@@ -56,25 +56,21 @@ public class MainMenu : MonoBehaviour
 
     public void OnStartButtonPress()
     {
-        Debug.Log("Pressed Start button");
         SceneManager.LoadScene("Fight");
-
     }
 
     public void OnOptionsButtonPress()
     {
-        Debug.Log("Pressed Options button");
         ShowOptionsPanel();
     }
 
     public void OnQuitButtonPress()
     {
-        Debug.Log("Pressed Quit button");
+        Application.Quit();
     }
 
     public void OnOKButtonPress()
     {
-        Debug.Log("Pressed OK button");
         SoundManager.instance.SetVolume(volumeSlider.value);
         SoundManager.instance.SetMusicVolume(musicVolumeSlider.value);
         HideOptionsPanel();
@@ -82,7 +78,6 @@ public class MainMenu : MonoBehaviour
 
     public void OnCancelButtonPress()
     {
-        Debug.Log("Pressed Cancel button");
         HideOptionsPanel();
     }
 }
