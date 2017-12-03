@@ -7,6 +7,7 @@ TagManager:
   - Army
   - RhythmEngine
   - Distance
+  - BannerText
   layers:
   - Default
   - TransparentFX
