@@ -127,11 +127,16 @@ public class Unit : MonoBehaviour {
         // Time window for unit key presses started
         if (bannerManAnimator != null) {
             bannerManAnimator.SetTrigger("Alert");
+        } else {
+            print("BannerMan is null");
         }
+
         if (soldierAnimators != null) {
             foreach (Animator a in soldierAnimators) {
                 a.SetTrigger("Alert");
             }
+        } else {
+            print("SoldierMan is null");
         }
     }
 

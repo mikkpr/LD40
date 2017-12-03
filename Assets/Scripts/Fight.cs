@@ -9,10 +9,15 @@ public class Fight : MonoBehaviour
 {
     public GameObject pikemanUnit;
 
+    private void Awake()
+    {
+        SpawnUnit(UnitPosition.Initial);
+    }
+
     void Start()
     {
         SoundManager.instance.PlayMusic();
-        SpawnUnit(UnitPosition.Initial);
+
     }
 
     float nextTime = 32;
@@ -28,7 +33,7 @@ public class Fight : MonoBehaviour
             nextTime += 32;
         }
 
-        print("Time: " + time);
+        //print("Time: " + time);
     }
 
     int lastOffset;
