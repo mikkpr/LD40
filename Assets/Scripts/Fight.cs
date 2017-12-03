@@ -27,6 +27,8 @@ public class Fight : MonoBehaviour
             SpawnUnit();
             nextTime += 32;
         }
+
+        print("Time: " + time);
     }
 
     int lastOffset;
@@ -91,7 +93,7 @@ public static class GameObjectExtensions
 
         if (position == UnitPosition.Initial)
         {
-            positionVector.x = -7.71f;
+            positionVector.x = -6.71f;
             positionVector.y = -3.38f;
 
             scaleVector.x = 0.3f;
@@ -102,8 +104,8 @@ public static class GameObjectExtensions
             scaleVector.x = 0.3f;
             scaleVector.y = 0.3f;
 
-            // 12 is approx. exactly offscreen, will immedicately enter
-            positionVector.x = 12;
+            // 10 is approx. exactly offscreen, will immedicately enter
+            positionVector.x = 10;
             positionVector.y = -2;
         }
 
