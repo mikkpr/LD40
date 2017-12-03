@@ -157,8 +157,6 @@ public class RhythmEngine : MonoBehaviour
             }
             else if (tracking.started && oldInBeat && !tracking.inBeat)
             {
-                //Debug.Log("OnBeatEnd(" + (tracking.pressed == 1) + "): " + key);
-                Debug.ClearDeveloperConsole();
                 tracking.index = 0;
                 unit.OnBeatEnd(tracking.pressed == 1);
             }
