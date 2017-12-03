@@ -1861,6 +1861,7 @@ MonoBehaviour:
   maxSpeed: 1
   globalYToZOffset: 2
   yToZ: -0.5
+  bannerTextUpdateDelta: 0.5
 --- !u!114 &114949905637499576
 MonoBehaviour:
   m_ObjectHideFlags: 1
