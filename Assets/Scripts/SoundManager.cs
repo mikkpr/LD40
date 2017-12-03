@@ -14,7 +14,7 @@ public class SoundManager : MonoBehaviour {
     public static SoundManager instance;
 
     public int activeLayers = 1;
-    public int maxLayers = 5;
+    private int maxLayers = 5;
 
     private float volumeScale = 100.0f;
     private float musicVolumeScale = 100.0f;
@@ -103,20 +103,30 @@ public class SoundManager : MonoBehaviour {
         return musicVolumeScale;
     }
 
-    public void Update () {
-        // TODO Mikk: pls ära jäta sellist spämmi debug logisse, kui commitid
-        //Debug.Log ("current layers: " + activeLayers.ToString ());
+    public void addMusicLayer () {
+        if (activeLayers < maxLayers) {
+            activeLayers++;
+        }
+    }
+
+    public void removeMusicLayer () {
+        if (activeLayers > 1) {
+            activeLayers--;
+        }
+    }
+
+    private void updateMusicLayers () {
         for (int i = 0; i < musicSources.Count; i++) {
             AudioSource source = musicSources[i];
             if (source.volume == 0 && (i + 1) <= activeLayers) {
-                //Debug.Log ("Activating new layer");
                 source.volume = (volumeScale * musicVolumeScale / 100 / 100);
             } else if (source.volume > 0 && (i + 1) > activeLayers) {
-                //Debug.Log ("Deactivating layer");
                 source.volume = 0;
             }
         }
-        //Debug.Log ("----------------");
-        //Debug.Log ("----------------");
+    }
+
+    public void Update () {
+        updateMusicLayers ();
     }
 }

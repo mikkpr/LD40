@@ -6,14 +6,10 @@ public class LayerTest : MonoBehaviour {
 
 	// Use this for initialization
 	public void IncreaseLayers () {
-		if (SoundManager.instance.activeLayers < SoundManager.instance.maxLayers) {
-			SoundManager.instance.activeLayers++;
-		}
+		SoundManager.instance.addMusicLayer ();
 	}
 
 	public void DecreaseLayers () {
-		if (SoundManager.instance.activeLayers > 1) {
-			SoundManager.instance.activeLayers--;
-		}
+		SoundManager.instance.removeMusicLayer ();
 	}
 }
