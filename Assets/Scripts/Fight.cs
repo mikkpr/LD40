@@ -12,11 +12,7 @@ public class Fight : MonoBehaviour
     void Start()
     {
         SoundManager.instance.PlayMusic();
-    }
-
-    void OnDestroy()
-    {
-
+        SpawnUnit(UnitPosition.Initial);
     }
 
     float nextTime = 32;
@@ -33,10 +29,10 @@ public class Fight : MonoBehaviour
         }
     }
 
-    void SpawnUnit()
+    void SpawnUnit(UnitPosition position = UnitPosition.Farthest)
     {
         GameObject newObject = pikemanUnit;
-        Unit unit = newObject.SetSpawnPositionAt(UnitPosition.Farthest);
+        Unit unit = newObject.SetSpawnPositionAt(position);
 
         //GCHandle objHandle = GCHandle.Alloc(unit,GCHandleType.WeakTrackResurrection);
         //int address = GCHandle.ToIntPtr(objHandle).ToInt32(); 
@@ -58,7 +54,9 @@ public class Fight : MonoBehaviour
 
 public enum UnitPosition
 {
-    None,
+    // Initial is your first unit, no scroll direction 
+    // and positioned in the left-center part of your screen
+    Initial,
     Near,
     NearCenter,
     Center,
@@ -76,7 +74,15 @@ public static class GameObjectExtensions
         var scaleVector = new Vector3();
         scaleVector.z = 0;
 
-        if (position == UnitPosition.Farthest)
+        if (position == UnitPosition.Initial)
+        {
+            positionVector.x = -7.71f;
+            positionVector.y = -3.38f;
+
+            scaleVector.x = 0.3f;
+            scaleVector.y = 0.3f;
+        }
+        else if (position == UnitPosition.Farthest)
         {
             scaleVector.x = 0.3f;
             scaleVector.y = 0.3f;
@@ -90,7 +96,15 @@ public static class GameObjectExtensions
         gm.transform.localScale = scaleVector;
 
         var script = gm.GetComponent<Unit>();
-        script.scrollDirection = new Vector3(-2, 0, 0);
+
+        if (position == UnitPosition.Initial)
+        {
+            script.scrollDirection = new Vector3(0, 0, 0);    
+        }
+        else
+        {
+            script.scrollDirection = new Vector3(-2, 0, 0);    
+        }
 
         return script;
     }
