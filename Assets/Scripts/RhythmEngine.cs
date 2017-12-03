@@ -150,13 +150,13 @@ public class RhythmEngine : MonoBehaviour
             if (!oldInBeat && tracking.inBeat)
             {
                 Debug.Log("OnBeatStart: " + key);
-
                 tracking.started = true;
                 tracking.pressed = 0;
                 unit.OnBeatStart();
             }
             else if (tracking.started && oldInBeat && !tracking.inBeat)
             {
+                Debug.Log("OnBeatEnd(" + (tracking.pressed == 1 ? "true" : "false") + "): " + key);
                 tracking.index = 0;
                 unit.OnBeatEnd(tracking.pressed == 1);
             }
@@ -165,7 +165,7 @@ public class RhythmEngine : MonoBehaviour
             {
                 if (!tracking.inBeat)
                 {
-                    //Debug.Log("OnOutOfBeat: " + key);
+                    Debug.Log("OnOutOfBeat: " + key);
                     unit.OnOutOfBeat();
                     return;
                 }
@@ -175,12 +175,12 @@ public class RhythmEngine : MonoBehaviour
                 {
                     if (tracking.pressed > 0)
                     {
-                        //Debug.Log("OnBeatDouble: " + key);
+                        Debug.Log("OnBeatDouble: " + key);
                         unit.OnBeatDouble();
                     }
                     else
                     {
-                        //Debug.Log("OnBeatHit: " + key);
+                        Debug.Log("OnBeatHit: " + key);
                         unit.OnBeatHit();
                     }
                     tracking.pressed++;
