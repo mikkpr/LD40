@@ -829,8 +829,8 @@ MonoBehaviour:
   - {fileID: 82610088505305504}
   - {fileID: 82400481080342298}
   musicLayers:
-  - {fileID: 8300000, guid: d3af46c7ff75f4966971bc27b60e5683, type: 3}
   - {fileID: 8300000, guid: 06db45ee258ba48b7ab77102711d16ef, type: 3}
+  - {fileID: 8300000, guid: d3af46c7ff75f4966971bc27b60e5683, type: 3}
   - {fileID: 8300000, guid: 3a9eff842686943a59375552ad2600a2, type: 3}
   - {fileID: 8300000, guid: 3b27f89cb9130441b8934fca52ee9c64, type: 3}
   - {fileID: 8300000, guid: 68b19e7ea5c664706b7b70c17bd74bac, type: 3}
