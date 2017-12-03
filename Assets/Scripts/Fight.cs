@@ -29,6 +29,8 @@ public class Fight : MonoBehaviour
         }
     }
 
+    int lastOffset;
+
     void SpawnUnit(UnitPosition position = UnitPosition.Farthest)
     {
         GameObject newObject = pikemanUnit;
@@ -37,6 +39,19 @@ public class Fight : MonoBehaviour
         //GCHandle objHandle = GCHandle.Alloc(unit,GCHandleType.WeakTrackResurrection);
         //int address = GCHandle.ToIntPtr(objHandle).ToInt32(); 
         //Debug.Log("Address: " + address);
+        unit.interval = 2;
+
+        if (lastOffset == 1)
+        {
+            unit.offset = 0;
+        }
+        else
+        {
+            unit.offset = 1;
+        }
+
+        lastOffset = (int)unit.offset;
+
         try
         {
             RhythmEngine.GetTagged().AddMarching(unit);

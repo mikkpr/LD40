@@ -373,6 +373,68 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!1001 &405872248
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4645793403507112, guid: 83c7f1bae706e4a57b04acaac080f750, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 1.1784078
+      objectReference: {fileID: 0}
+    - target: {fileID: 4645793403507112, guid: 83c7f1bae706e4a57b04acaac080f750, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4645793403507112, guid: 83c7f1bae706e4a57b04acaac080f750, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4645793403507112, guid: 83c7f1bae706e4a57b04acaac080f750, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4645793403507112, guid: 83c7f1bae706e4a57b04acaac080f750, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4645793403507112, guid: 83c7f1bae706e4a57b04acaac080f750, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4645793403507112, guid: 83c7f1bae706e4a57b04acaac080f750, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4645793403507112, guid: 83c7f1bae706e4a57b04acaac080f750, type: 2}
+      propertyPath: m_RootOrder
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 61776838678871042, guid: 83c7f1bae706e4a57b04acaac080f750,
+        type: 2}
+      propertyPath: m_Offset.y
+      value: -2.5157127
+      objectReference: {fileID: 0}
+    - target: {fileID: 61776838678871042, guid: 83c7f1bae706e4a57b04acaac080f750,
+        type: 2}
+      propertyPath: m_Size.y
+      value: 5.6450996
+      objectReference: {fileID: 0}
+    - target: {fileID: 61776838678871042, guid: 83c7f1bae706e4a57b04acaac080f750,
+        type: 2}
+      propertyPath: m_Offset.x
+      value: -8.007277
+      objectReference: {fileID: 0}
+    - target: {fileID: 61776838678871042, guid: 83c7f1bae706e4a57b04acaac080f750,
+        type: 2}
+      propertyPath: m_Size.x
+      value: 5.5163727
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 83c7f1bae706e4a57b04acaac080f750, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &640625473
 GameObject:
   m_ObjectHideFlags: 0
