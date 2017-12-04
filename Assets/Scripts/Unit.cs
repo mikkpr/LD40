@@ -255,6 +255,6 @@ public class Unit : MonoBehaviour {
 
     public void SetBossFightMode()
     {
-        bossfight = true;
+        bossFight = true;
     }
 }
