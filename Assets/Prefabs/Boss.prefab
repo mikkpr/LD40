@@ -3134,6 +3134,8 @@ MonoBehaviour:
     - 4.5
     - 5
     - 6
+  finalRelativePosition: {x: -8, y: 0, z: 0}
+  enterSpeed: 0.5
   sceneChangeDelta: 10
 --- !u!114 &114385988435743928
 MonoBehaviour:
