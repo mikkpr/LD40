@@ -1145,35 +1145,35 @@ MonoBehaviour:
   unitSpecs:
   - prefab: {fileID: 1723102104858134, guid: 65c2cf01cceca4f2e938dfb4c281aa45, type: 2}
     spawnTime: 16
-    health: 7
+    health: 5
     interval: 2
     offset: 0
     sequence: 0
     scrollDirection: {x: -2, y: 0, z: 0}
   - prefab: {fileID: 1723102104858134, guid: 65c2cf01cceca4f2e938dfb4c281aa45, type: 2}
     spawnTime: 24
-    health: 7
+    health: 5
     interval: 2
     offset: 1
     sequence: 0
     scrollDirection: {x: -2, y: 0, z: 0}
   - prefab: {fileID: 1723102104858134, guid: 65c2cf01cceca4f2e938dfb4c281aa45, type: 2}
     spawnTime: 32
-    health: 7
+    health: 5
     interval: 2
     offset: 0
     sequence: 0
     scrollDirection: {x: -2, y: 0, z: 0}
   - prefab: {fileID: 1723102104858134, guid: 65c2cf01cceca4f2e938dfb4c281aa45, type: 2}
     spawnTime: 48
-    health: 7
+    health: 5
     interval: 2
     offset: 1
     sequence: 0
     scrollDirection: {x: -2, y: 0, z: 0}
   - prefab: {fileID: 1723102104858134, guid: 65c2cf01cceca4f2e938dfb4c281aa45, type: 2}
     spawnTime: 64
-    health: 7
+    health: 3
     interval: 4
     offset: 1
     sequence: 0
