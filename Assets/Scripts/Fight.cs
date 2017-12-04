@@ -10,6 +10,7 @@ public struct UnitSpec
 {
     public GameObject prefab;
     public float spawnTime;
+    public int health;
     public float interval;
     public float offset;
     public bool sequence;
@@ -52,6 +53,7 @@ public class Fight : MonoBehaviour
         unit.interval = spec.interval;
         unit.offset = spec.offset;
         unit.sequence = spec.sequence;
+        unit.health = spec.health;
 
         return unit;
     }

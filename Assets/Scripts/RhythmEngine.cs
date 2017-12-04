@@ -217,6 +217,10 @@ public class RhythmEngine : MonoBehaviour
     public void SetBoss(Boss boss)
     {
         this.boss = boss;
+        foreach (Unit unit in units.Keys)
+        {
+            unit.SetBossFightMode();
+        }
     }
 
     void BossUpdate()
@@ -226,8 +230,8 @@ public class RhythmEngine : MonoBehaviour
             // Wait for the song to end.
             if (!SoundManager.instance.IsMusicPlaying())
             {
-                // XXX: Spams boss.OnSuccess if the Scene is not changed.
                 boss.OnSuccess();
+                Clear();
             }
             return;
         }

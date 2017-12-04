@@ -71,6 +71,15 @@ public class ScrollingScript : MonoBehaviour
     {
         if (Time.time >= Constants.Level1Duration)
         {
+            if (boss != null)
+            {
+                RhythmEngine.GetTagged().SetBoss(boss);
+            }
+            else
+            {
+                print("Boss not attached to this GameObject, ignoring");
+            }
+
             return;
         }
 
