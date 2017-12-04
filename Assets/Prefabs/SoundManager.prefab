@@ -825,6 +825,7 @@ MonoBehaviour:
   hitSound: {fileID: 8300000, guid: f34dc7aaafb504e25928e39c6a2c0bd6, type: 3}
   stumbleSound: {fileID: 8300000, guid: 28c66fbb6bccf48ef97cb28a0ff7f89e, type: 3}
   clickSound: {fileID: 8300000, guid: 6b3f75b531d064fd9b5e49b4c6920c3e, type: 3}
+  loseMusic: {fileID: 8300000, guid: 1b1fab82c850740b78bfad98f8b26e56, type: 3}
   musicSources:
   - {fileID: 82049597444174022}
   - {fileID: 82842916800490780}

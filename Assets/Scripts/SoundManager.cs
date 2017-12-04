@@ -9,6 +9,8 @@ public class SoundManager : MonoBehaviour {
     public AudioClip stumbleSound;
     public AudioClip clickSound;
 
+    public AudioClip loseMusic;
+
     public List<AudioSource> musicSources = new List<AudioSource> ();
 
     public List<AudioClip> musicLayers = new List<AudioClip> ();
@@ -53,6 +55,16 @@ public class SoundManager : MonoBehaviour {
     }
 
     public void StopMainMenuTheme () {
+        mainMenuSource.clip = null;
+        mainMenuSource.Stop ();
+    }
+
+    public void PlayLoseMusic () {
+        mainMenuSource.clip = loseMusic;
+        mainMenuSource.Play ();
+    }
+
+    public void StopLoseMusic () {
         mainMenuSource.clip = null;
         mainMenuSource.Stop ();
     }

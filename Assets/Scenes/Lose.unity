@@ -232,7 +232,7 @@ GameObject:
   - component: {fileID: 513369380}
   - component: {fileID: 513369379}
   m_Layer: 0
-  m_Name: Win
+  m_Name: WinLose
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -249,6 +249,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86363a5b4994c41c08861b5c8875edb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isLose: 1
 --- !u!4 &513369380
 Transform:
   m_ObjectHideFlags: 0
