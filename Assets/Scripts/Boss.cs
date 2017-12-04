@@ -14,7 +14,13 @@ public class Boss : MonoBehaviour
     // Challenges issued by this Boss.
     public List<Challenge> challenges = null;
 
-    private float grooveStep;
+    public float sceneChangeDelta = 10.0f;
+
+    private float grooveStep = 0.0f;
+    private Animator animator = null;
+    private float sceneChangeTime = float.PositiveInfinity;
+    private string sceneChangeName = "";
+    private bool endTriggered = false;
 
     [System.Serializable]
     public class Challenge
@@ -29,9 +35,26 @@ public class Boss : MonoBehaviour
         public List<float> offsets = null;
     }
 
+    void Awake()
+    {
+        Component[] components = GetComponentsInChildren<Animator>();
+        if (components.Length > 0) {
+            animator = (Animator)components[0];
+        }
+    }
+
     void Start()
     {
         grooveStep = 100.0f / groove;
+    }
+
+    void Update()
+    {
+        float t = Time.time;
+
+        if (t < sceneChangeTime) {
+            SceneManager.LoadScene(sceneChangeName);
+        }
     }
 
     // Called by RhythmManager when the boss has to wind up for a new key.
@@ -39,6 +62,9 @@ public class Boss : MonoBehaviour
     {
         // Start windup animation.
         Debug.Log("Boss.OnWindup");
+        if (animator != null) {
+            animator.SetBool("PlayNotes", true);
+        }
     }
 
     // Called by RhythmManager when the boss has to hit a key ("note").
@@ -53,6 +79,9 @@ public class Boss : MonoBehaviour
     {
         // Go back into idle state.
         Debug.Log("Boss.OnTurnEnd");
+        if (animator != null) {
+            animator.SetBool("PlayNotes", false);
+        }
     }
 
     // Called by RhythmManager when the player misses a note.
@@ -64,13 +93,27 @@ public class Boss : MonoBehaviour
         // Change Scene to failure if groove empty.
         if ((groove--) <= 0)
         {
-            SceneManager.LoadScene("Lose");
+            TriggerEnd("Lose");
         }
     }
 
     // Called by RhythmManager when the player completed all Challenges.
     public void OnSuccess()
     {
-        SceneManager.LoadScene("Win");
+        TriggerEnd("Win");
+    }
+
+    void TriggerEnd(string name) {
+        if (!endTriggered) {
+            endTriggered = true;
+
+            // Change Scene to success.
+            if (animator != null) {
+                animator.SetTrigger(name);
+            }
+
+            sceneChangeName = name;
+            sceneChangeTime = Time.time + sceneChangeDelta;
+        }
     }
 }
