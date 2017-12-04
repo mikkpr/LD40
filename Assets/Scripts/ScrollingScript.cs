@@ -66,14 +66,22 @@ public class ScrollingScript : MonoBehaviour
     }
 
     public static EventHandler<EventArgs> ProgressUpdated;
+    static bool isBossAdded;
 
     void Update()
     {
-        if (Time.time >= Constants.Level1Duration)
+        if (Time.time >= 10)// Constants.Level1Duration)
         {
+            if (isBossAdded)
+            {
+                return;
+            }
+
             if (boss != null)
             {
                 RhythmEngine.GetTagged().SetBoss(boss);
+                isBossAdded = true;
+                print("Added boss, great success!");
             }
             else
             {

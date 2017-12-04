@@ -1528,7 +1528,7 @@ MonoBehaviour:
   direction: {x: -1, y: 0}
   isLinkedToCamera: 0
   isLooping: 1
-  boss: {fileID: 0}
+  boss: {fileID: 114373957179546990, guid: fe658f43fac67474d98ad68818552f26, type: 2}
 --- !u!4 &1942121507
 Transform:
   m_ObjectHideFlags: 0
