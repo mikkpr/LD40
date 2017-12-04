@@ -1191,6 +1191,7 @@ GameObject:
   - component: {fileID: 1922964074}
   - component: {fileID: 1922964073}
   - component: {fileID: 1922964071}
+  - component: {fileID: 1922964072}
   m_Layer: 0
   m_Name: Background
   m_TagString: Untagged
@@ -1213,6 +1214,17 @@ MonoBehaviour:
   direction: {x: -1, y: 0}
   isLinkedToCamera: 0
   isLooping: 1
+--- !u!114 &1922964072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1922964070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98b641013816a4c819f3c4c79d807901, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &1922964073
 SpriteRenderer:
   m_ObjectHideFlags: 0

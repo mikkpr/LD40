@@ -7488,7 +7488,6 @@ MonoBehaviour:
   sequence: 0
   keyCodes: 
   group: {fileID: 0}
-  scrollSpeed: 0.2
   scrollDirection: {x: -2, y: 0, z: 0}
   inGroupTargetPosition: {x: 0, y: 0, z: 0}
   maxSpeed: 1
