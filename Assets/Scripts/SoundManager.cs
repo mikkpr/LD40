@@ -5,6 +5,10 @@ using UnityEngine.UI;
 public class SoundManager : MonoBehaviour {
     public AudioSource efxSource;
 
+    public AudioClip hitSound;
+    public AudioClip stumbleSound;
+    public AudioClip clickSound;
+
     public List<AudioSource> musicSources = new List<AudioSource> ();
 
     public List<AudioClip> musicLayers = new List<AudioClip> ();
@@ -28,9 +32,16 @@ public class SoundManager : MonoBehaviour {
         DontDestroyOnLoad (this.gameObject);
     }
 
-    public void PlaySound (AudioClip clip) {
+    public void PlaySound (string name) {
+        efxSource.clip = null;
         //Set the clip of our efxSource audio source to the clip passed in as a parameter.
-        efxSource.clip = clip;
+        if (name == "hit") {
+            efxSource.clip = hitSound;
+        } else if (name == "stumble") {
+            efxSource.clip = stumbleSound;
+        } else if (name == "click") {
+            efxSource.clip = clickSound;
+        }
 
         //Play the clip.
         efxSource.Play ();
@@ -63,6 +74,11 @@ public class SoundManager : MonoBehaviour {
             source.clip = null;
             source.Stop ();
         }
+    }
+
+    public bool IsMusicPlaying () {
+        AudioSource source = musicSources[0];
+        return source.isPlaying;
     }
 
     public void SetVolume (float scale) {

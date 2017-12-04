@@ -17,7 +17,6 @@ public class RhythmTestScript : MonoBehaviour
         if (boss != null)
         {
             rm.SetBoss(boss);
-            rm.BossChallenge(boss.challenges[0]);
         }
     }
 }

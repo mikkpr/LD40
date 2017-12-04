@@ -822,6 +822,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   efxSource: {fileID: 82532041419293878}
+  hitSound: {fileID: 8300000, guid: f34dc7aaafb504e25928e39c6a2c0bd6, type: 3}
+  stumbleSound: {fileID: 8300000, guid: 28c66fbb6bccf48ef97cb28a0ff7f89e, type: 3}
+  clickSound: {fileID: 8300000, guid: 6b3f75b531d064fd9b5e49b4c6920c3e, type: 3}
   musicSources:
   - {fileID: 82049597444174022}
   - {fileID: 82842916800490780}
@@ -836,4 +839,4 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 89cf1c204139f4c7ea1ba2225671581c, type: 3}
   mainMenuSource: {fileID: 82493834979246600}
   mainMenuClip: {fileID: 8300000, guid: c7aba93fd001f4eec977366611aed7ca, type: 3}
-  activeLayers: 2
+  activeLayers: 1
