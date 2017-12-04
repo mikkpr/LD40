@@ -217,6 +217,10 @@ public class RhythmEngine : MonoBehaviour
     public void SetBoss(Boss boss)
     {
         this.boss = boss;
+        foreach (Unit unit in units)
+        {
+            unit.SetBossFightMode();
+        }
     }
 
     void BossUpdate()

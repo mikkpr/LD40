@@ -27,6 +27,7 @@ public class Unit : MonoBehaviour
     private float lastBannerTextUpdate = float.NegativeInfinity;
     private Animator bannerManAnimator = null;
     private List<Animator> soldierAnimators = null;
+    private bool bossFight = false;
 
     void Awake()
     {
@@ -298,5 +299,10 @@ public class Unit : MonoBehaviour
         {
             candidateGroup = null;
         }
+    }
+
+    public void SetBossFightMode()
+    {
+        bossfight = true;
     }
 }
