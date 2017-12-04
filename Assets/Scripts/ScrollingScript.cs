@@ -70,7 +70,7 @@ public class ScrollingScript : MonoBehaviour
 
     void Update()
     {
-        if (Time.time >= 10)// Constants.Level1Duration)
+        if (Time.time >= Constants.Level1Duration)
         {
             if (isBossAdded)
             {
