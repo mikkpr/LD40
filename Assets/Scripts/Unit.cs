@@ -208,15 +208,16 @@ public class Unit : MonoBehaviour
                         inGroupTargetPosition = Vector3.zero;
                         followInGroupTarget = false;
                     }
-                }
-            }
-        }
 
-        if (soldierAnimators != null)
-        {
-            foreach (Animator a in soldierAnimators)
-            {
-                a.SetTrigger("Stumble");
+                    // Play failure animation
+                    if (soldierAnimators != null)
+                    {
+                        foreach (Animator a in soldierAnimators)
+                        {
+                            a.SetTrigger("Stumble");
+                        }
+                    }
+                }
             }
         }
     }
