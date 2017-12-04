@@ -63,11 +63,20 @@ public class ScrollingScript : MonoBehaviour
         }
     }
 
+    public static EventHandler<EventArgs> ProgressUpdated;
+
     void Update()
     {
         if (Time.time >= Constants.Level1Duration)
         {
             return;
+        }
+
+        if (ProgressUpdated != null)
+        {
+            float passed = SoundManager.instance.GetCurrentTime();
+            float progress = passed / Constants.Level1Duration * 100;
+            ProgressUpdated(progress, EventArgs.Empty);
         }
 
         // Movement

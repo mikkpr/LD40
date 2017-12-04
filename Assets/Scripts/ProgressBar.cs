@@ -13,7 +13,14 @@ public class ProgressBar : MonoBehaviour
     {
         GameObject marker = progressBar.transform.Find("Marker").gameObject;
         initialX = marker.transform.localPosition.x;
+
+        ScrollingScript.ProgressUpdated += (sender, e) => 
+        {
+            float progress = (float)sender;
+            SetValue(progress);
+        };
     }
+
     public void SetValue(float value)
     {
         float clampedValue = Mathf.Clamp(value, 0, 100);
