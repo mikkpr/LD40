@@ -16,6 +16,9 @@ public class RhythmEngine : MonoBehaviour
         return tagged[0].GetComponent<RhythmEngine>();
     }
 
+    // Time before a beat when Units start their windup.
+    public float unitWindup = 0.667f;
+
     // Allowed difference from the perfect beat.
     public float singleAccuracy = 0.1f;
     public float sequenceAccuracy = 0.25f;
@@ -60,6 +63,9 @@ public class RhythmEngine : MonoBehaviour
         // Has an onBeatStart been issued for this Unit? This is used to avoid
         // firing an onBeatEnd if no preceding onBeatStart was called.
         public bool started = false;
+
+        // Has OnBeatWindup already been called this beat.
+        public bool winding = false;
 
         // Is the Unit currently in the rhythm window ("beat"). Units start
         // with inBeat set to avoid firing an onBeatStart if the Unit was added
@@ -156,6 +162,13 @@ public class RhythmEngine : MonoBehaviour
             float accuracy = unit.sequence ? sequenceAccuracy : singleAccuracy;
 
             float sinceBeat = (SoundManager.instance.GetCurrentTime() - unit.offset) % unit.interval;
+
+            if (!tracking.winding && sinceBeat > (unit.interval - accuracy - unitWindup))
+            {
+                tracking.winding = true;
+                unit.OnBeatWindup();
+            }
+
             bool oldInBeat = tracking.inBeat;
             tracking.inBeat = sinceBeat < accuracy || sinceBeat > (unit.interval - accuracy);
 
@@ -168,6 +181,7 @@ public class RhythmEngine : MonoBehaviour
             else if (tracking.started && oldInBeat && !tracking.inBeat)
             {
                 tracking.index = 0;
+                tracking.winding = false;
                 unit.OnBeatEnd(tracking.pressed == 1);
             }
 
