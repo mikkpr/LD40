@@ -148,8 +148,10 @@ public class RhythmEngine : MonoBehaviour
 
     public void RemoveMarching(Unit unit)
     {
-        // Do not remove KeyCodes allocated to the Unit: we do not wish to
-        // reissue during a single level.
+        foreach (KeyCode key in unit.keyCodes)
+        {
+            allocatedKeys.Remove(key);
+        }
         units.Remove(unit);
     }
 
