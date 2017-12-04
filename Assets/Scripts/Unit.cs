@@ -144,23 +144,34 @@ public class Unit : MonoBehaviour
 
     public void OnBeatWindup()
     {
+        if (health <= 0)
+        {
+            // This unit is already dismissed
+            return;
+        }
+
         // Time window for unit key presses started
         if (bannerManAnimator != null)
         {
-            bannerManAnimator.SetTrigger("Alert");
+            bannerManAnimator.SetBool("Alert", true);
         }
 
-        if (soldierAnimators != null)
-        {
-            foreach (Animator a in soldierAnimators)
-            {
-                a.SetTrigger("Alert");
-            }
-        }
+        //if (soldierAnimators != null)
+        //{
+        //    foreach (Animator a in soldierAnimators)
+        //    {
+        //        a.SetTrigger("Alert");
+        //    }
+        //}
     }
 
     public void OnBeatStart()
     {
+        if (health <= 0)
+        {
+            // This unit is already dismissed
+            return;
+        }
     }
 
     public void OnBeatEnd(bool success)
@@ -190,35 +201,24 @@ public class Unit : MonoBehaviour
                 // We are in the army
                 // Keep up the good work
             }
+
+            // Play success animation
+            if (soldierAnimators != null)
+            {
+                foreach (Animator a in soldierAnimators)
+                {
+                    a.SetTrigger("Cheer");
+                }
+            }
         }
         else
         {
-            // This unit failed
-            if (group != null)
-            {
-                if (health > 0)
-                {
-                    // Reduce this unit's health
-                    health -= 1;
-                    if (health == 0)
-                    {
-                        // This unit is dismissed from the army
-                        group.RemoveUnit(this);
-                        group = null;
-                        inGroupTargetPosition = Vector3.zero;
-                        followInGroupTarget = false;
-                    }
+            LoseHealth();
+        }
 
-                    // Play failure animation
-                    if (soldierAnimators != null)
-                    {
-                        foreach (Animator a in soldierAnimators)
-                        {
-                            a.SetTrigger("Stumble");
-                        }
-                    }
-                }
-            }
+        if (bannerManAnimator != null)
+        {
+            bannerManAnimator.SetBool("Alert", false);
         }
     }
 
@@ -235,12 +235,43 @@ public class Unit : MonoBehaviour
     public void OnOutOfBeat()
     {
         // Keys were pressed out of time window
+        LoseHealth();
     }
 
     public void SetInGroupTarget(Vector3 target)
     {
         inGroupTargetPosition = target;
         followInGroupTarget = true;
+    }
+
+    void LoseHealth()
+    {
+        // This unit failed
+        if (group != null)
+        {
+            if (health > 0)
+            {
+                // Reduce this unit's health
+                health -= 1;
+                if (health == 0)
+                {
+                    // This unit is dismissed from the army
+                    group.RemoveUnit(this);
+                    group = null;
+                    inGroupTargetPosition = Vector3.zero;
+                    followInGroupTarget = false;
+                }
+
+                // Play failure animation
+                if (soldierAnimators != null)
+                {
+                    foreach (Animator a in soldierAnimators)
+                    {
+                        a.SetTrigger("Stumble");
+                    }
+                }
+            }
+        }
     }
 
     void OnTriggerEnter2D(Collider2D other)
