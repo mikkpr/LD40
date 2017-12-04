@@ -52,7 +52,7 @@ public class Boss : MonoBehaviour
     {
         float t = Time.time;
 
-        if (t < sceneChangeTime) {
+        if (t >= sceneChangeTime) {
             SceneManager.LoadScene(sceneChangeName);
         }
     }
