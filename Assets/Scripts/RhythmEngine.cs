@@ -42,11 +42,12 @@ public class RhythmEngine : MonoBehaviour
     // The Boss being fought. If null then units are marching.
     Boss boss = null;
 
-    // Parameters for the current Boss.Challenge.
-    Boss.Challenge challenge = null;
-    List<KeyCode> challengeKeys = null;
-    int challengeIndex = 0;
-    bool bossWinding = false;
+    // Parameters for the Boss.Challenges.
+    int challengeIndex = 0;             // Index of Boss.challenges.
+    List<KeyCode> challengeKeys = null; // Keys allocated to a Boss.Challenge.
+    int challengeOffsetIndex = 0;       // Index of Boss.Challenge.offsets.
+    bool bossWinding = false;           // Has the Boss started winding up.
+    Unit challengeUnit = null;          // The Unit that is allocated the next key.
 
     // ListWrapper is required so that the Unity Editor can serialize a List of
     // Lists to be filled.
@@ -163,7 +164,7 @@ public class RhythmEngine : MonoBehaviour
 
             float sinceBeat = (SoundManager.instance.GetCurrentTime() - unit.offset) % unit.interval;
 
-            if (!tracking.winding && sinceBeat > (unit.interval - accuracy - unitWindup))
+            if (!tracking.winding && sinceBeat >= (unit.interval - accuracy - unitWindup))
             {
                 tracking.winding = true;
                 unit.OnBeatWindup();
@@ -218,47 +219,32 @@ public class RhythmEngine : MonoBehaviour
         this.boss = boss;
     }
 
-    // Issue a new Boss.Challenge. First the Boss plays some notes at the given
-    // offsets, then after length has passed, the units have to play the same
-    // notes. The actual keys for the offsets are chosen by RhythmEngine from
-    // the pool of allocated KeyCodes (even if the corresponding Units are no
-    // longer marching).
-    public void BossChallenge(Boss.Challenge challenge)
-    {
-        float time = SoundManager.instance.GetCurrentTime();
-
-        // Only accept a new challenge if we have a Boss and we are not already
-        // in one.
-        if (boss == null || InChallenge(time))
-        {
-            Debug.Log("Rejecting new challenge, boss:" + (boss != null) +
-                    ", challenge:" + (this.challenge != null));
-            return;
-        }
-        this.challenge = challenge;
-        challengeIndex = 0;
-        bossWinding = false;
-    }
-
-    bool InChallenge(float time)
-    {
-        return challenge != null && (time >= challenge.start) &&
-            (time < challenge.start + 2*challenge.length);
-    }
-
     void BossUpdate()
     {
+        if (challengeIndex >= boss.challenges.Count)
+        {
+            // Wait for the song to end.
+            if (!SoundManager.instance.IsMusicPlaying())
+            {
+                // XXX: Spams boss.OnSuccess if the Scene is not changed.
+                boss.OnSuccess();
+            }
+            return;
+        }
+        Boss.Challenge challenge = boss.challenges[challengeIndex];
+
         float time = SoundManager.instance.GetCurrentTime();
-        if (!InChallenge(time))
+        if (time < challenge.start)
         {
             return;
         }
+
         if (time < challenge.start + challenge.length)
         {
             // Bosses turn to pump out notes, if not done already.
-            if (challengeIndex < challenge.offsets.Count)
+            if (challengeOffsetIndex < challenge.offsets.Count)
             {
-                float offset = challenge.start + challenge.offsets[challengeIndex];
+                float offset = challenge.start + challenge.offsets[challengeOffsetIndex];
                 if (!bossWinding && time >= offset - bossWindup)
                 {
                     bossWinding = true;
@@ -270,14 +256,124 @@ public class RhythmEngine : MonoBehaviour
                     KeyCode key = allocatedKeys[Random.Range(0, allocatedKeys.Count)];
                     challengeKeys.Add(key);
                     boss.OnNote(key);
-                    challengeIndex++;
+                    challengeOffsetIndex++;
                 }
             }
         }
         else
         {
             // Our turn to follow what the Boss did.
-            // TODO
+            if (bossWinding)
+            {
+                bossWinding = false;
+                boss.OnTurnEnd();
+                challengeOffsetIndex = 0;
+                UpdateChallengeUnit();
+            }
+            if (challengeOffsetIndex >= challenge.offsets.Count)
+            {
+                // Nailed it! Set the next challenge.
+                challengeIndex++;
+                challengeKeys.Clear();
+                challengeOffsetIndex = 0;
+                return;
+            }
+
+            float offset = challenge.start + challenge.length + challenge.offsets[challengeOffsetIndex];
+            if (challengeUnit == null)
+            {
+                // We lost this Unit during marching, auto-fail.
+                if (time >= offset)
+                {
+                    challengeOffsetIndex++;
+                    UpdateChallengeUnit();
+                    boss.OnMiss();
+                }
+            }
+            else
+            {
+                // This Unit has to hit the beat.
+                Tracking tracking = units[challengeUnit];
+
+                // XXX: Copy-pasta from MarchingUpdate.
+                if (!tracking.winding && time >= (offset - singleAccuracy - unitWindup))
+                {
+                    tracking.winding = true;
+                    challengeUnit.OnBeatWindup();
+                }
+
+                bool oldInBeat = tracking.inBeat;
+                tracking.inBeat = time >= (offset - singleAccuracy) &&
+                    time < (offset + singleAccuracy);
+
+                if (!oldInBeat && tracking.inBeat)
+                {
+                    tracking.pressed = 0;
+                    challengeUnit.OnBeatStart();
+                }
+                else if (oldInBeat && !tracking.inBeat)
+                {
+                    tracking.winding = false;
+                    if (tracking.pressed == 1)
+                    {
+                        challengeUnit.OnBeatEnd(true);
+                    }
+                    else
+                    {
+                        challengeUnit.OnBeatEnd(false);
+                        boss.OnMiss();
+                    }
+                    challengeOffsetIndex++;
+                    if (challengeOffsetIndex >= challengeKeys.Count)
+                    {
+                        return;
+                    }
+                    UpdateChallengeUnit();
+                }
+
+                if (Input.GetKeyDown(challengeKeys[challengeOffsetIndex]))
+                {
+                    if (!tracking.inBeat)
+                    {
+                        challengeUnit.OnOutOfBeat();
+                        boss.OnMiss();
+                        return;
+                    }
+
+                    if (tracking.pressed > 0)
+                    {
+                        challengeUnit.OnBeatDouble();
+                        boss.OnMiss();
+                    }
+                    else
+                    {
+                        challengeUnit.OnBeatHit();
+                    }
+                    tracking.pressed++;
+                }
+            }
+        }
+    }
+
+    void UpdateChallengeUnit()
+    {
+        challengeUnit = null;
+        if (challengeOffsetIndex >= challengeKeys.Count)
+        {
+            return;
+        }
+
+        KeyCode key = challengeKeys[challengeOffsetIndex];
+        foreach (KeyValuePair<Unit, Tracking> entry in units)
+        {
+            if (entry.Key.keyCodes.Contains(key))
+            {
+                challengeUnit = entry.Key;
+                entry.Value.winding = false;
+                entry.Value.inBeat = false;
+                entry.Value.pressed = 0;
+                return;
+            }
         }
     }
 
