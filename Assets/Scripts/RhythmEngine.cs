@@ -230,8 +230,8 @@ public class RhythmEngine : MonoBehaviour
             // Wait for the song to end.
             if (!SoundManager.instance.IsMusicPlaying())
             {
-                // XXX: Spams boss.OnSuccess if the Scene is not changed.
                 boss.OnSuccess();
+                Clear();
             }
             return;
         }
