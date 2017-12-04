@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class Boss : MonoBehaviour
 {
@@ -26,6 +27,7 @@ public class Boss : MonoBehaviour
     private bool endTriggered = false;
     private bool entering = false;
     private Vector3 finalPosition;
+    private TextMeshPro noteText = null;
 
     [System.Serializable]
     public class Challenge
@@ -46,6 +48,9 @@ public class Boss : MonoBehaviour
         if (components.Length > 0) {
             animator = (Animator)components[0];
         }
+
+        noteText = GetComponent<TextMeshPro>();
+        noteText.text = "A B C D E";
     }
 
     void Start()
@@ -88,6 +93,50 @@ public class Boss : MonoBehaviour
     {
         // Play note animation.
         Debug.Log("Boss.OnNote(" + key + ")");
+
+        System.Text.StringBuilder sb = new System.Text.StringBuilder (noteText.text);
+        sb.Append(" ");
+
+        switch (key) {
+            case KeyCode.Space:
+                sb.Append ("Spc");
+                break;
+            case KeyCode.Alpha0:
+                sb.Append ("0");
+                break;
+            case KeyCode.Alpha1:
+                sb.Append ("1");
+                break;
+            case KeyCode.Alpha2:
+                sb.Append ("2");
+                break;
+            case KeyCode.Alpha3:
+                sb.Append ("3");
+                break;
+            case KeyCode.Alpha4:
+                sb.Append ("4");
+                break;
+            case KeyCode.Alpha5:
+                sb.Append ("5");
+                break;
+            case KeyCode.Alpha6:
+                sb.Append ("6");
+                break;
+            case KeyCode.Alpha7:
+                sb.Append ("7");
+                break;
+            case KeyCode.Alpha8:
+                sb.Append ("8");
+                break;
+            case KeyCode.Alpha9:
+                sb.Append ("9");
+                break;
+            default:
+                sb.Append (key);
+                break;
+        }
+
+        noteText.text = sb.ToString();
     }
 
     // Called by RhythmManager when the bosses turn ends.
@@ -98,6 +147,8 @@ public class Boss : MonoBehaviour
         if (animator != null) {
             animator.SetBool("PlayNotes", false);
         }
+
+        noteText.text = "";
     }
 
     // Called by RhythmManager when the player misses a note.
