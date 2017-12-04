@@ -34,6 +34,8 @@ public class ScrollingScript : MonoBehaviour
     /// </summary>
     private List<SpriteRenderer> backgroundPart;
 
+    public Boss boss;
+
     // 3 - Get all the children
     void Start()
     {
