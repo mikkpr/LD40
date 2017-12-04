@@ -4,6 +4,7 @@ using System;
 using UnityEngine;
 using System.Timers;
 using System.Runtime.InteropServices;
+using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public struct UnitSpec
@@ -53,6 +54,9 @@ public class Fight : MonoBehaviour
                 u.Kill(despawnDelta);
                 units.RemoveAt(i);
             }
+        }
+        if (units.Count == 0) {
+            SceneManager.LoadScene("Lose");
         }
     }
 
