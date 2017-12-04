@@ -27,6 +27,8 @@ public class Unit : MonoBehaviour {
     private Animator bannerManAnimator = null;
     private List<Animator> soldierAnimators = null;
     private bool bossFight = false;
+    private float despawnTime = float.PositiveInfinity;
+    private bool isDespawning = false;
 
     void Awake () {
         keyCodes = new List<KeyCode> ();
@@ -53,8 +55,13 @@ public class Unit : MonoBehaviour {
     }
 
     void Update () {
-
         float t = Time.time;
+
+        if (isDespawning && despawnTime < t) {
+            GameObject.Destroy(gameObject);
+            return;
+        }
+
         Vector3 newPosition = Vector3.zero;
 
         // Change position
@@ -209,6 +216,11 @@ public class Unit : MonoBehaviour {
     }
 
     void LoseHealth () {
+        if (bossFight) {
+            // Do not lose health in boss fight
+            return;
+        }
+
         // This unit failed
         if (group != null) {
             if (health > 0) {
@@ -216,11 +228,7 @@ public class Unit : MonoBehaviour {
                 health -= 1;
                 if (health == 0) {
                     // This unit is dismissed from the army
-                    group.RemoveUnit (this);
-                    group = null;
-                    inGroupTargetPosition = Vector3.zero;
-                    followInGroupTarget = false;
-                    SoundManager.instance.removeMusicLayer ();
+                    Dismiss();
                 }
 
                 // Play failure animation
@@ -256,5 +264,25 @@ public class Unit : MonoBehaviour {
     public void SetBossFightMode()
     {
         bossFight = true;
+    }
+
+    public void Dismiss()
+    {
+        if (group != null) {
+            group.RemoveUnit (this);
+            group = null;
+            inGroupTargetPosition = Vector3.zero;
+            followInGroupTarget = false;
+            SoundManager.instance.removeMusicLayer ();
+        }
+    }
+
+    public void Kill(float timeOffset = 0.0f)
+    {
+        if (!isDespawning) {
+            Dismiss();
+            despawnTime = Time.time + timeOffset;
+            isDespawning = true;
+        }
     }
 }

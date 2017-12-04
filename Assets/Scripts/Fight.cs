@@ -22,6 +22,7 @@ public class Fight : MonoBehaviour
     public float minY = 0.0f;
     public float maxY = 4.0f;
     public UnitSpec[] unitSpecs;
+    public float despawnDelta = 10.0f;
 
     private List<Unit> units = null;
 
@@ -31,7 +32,6 @@ public class Fight : MonoBehaviour
         foreach (UnitSpec spec in unitSpecs) {
             // Assume Unit Specification is properly initialized
             units.Add(SpawnUnit(spec));
-            //new Vector3(-6.71f, -3.38f, 0.0f)
         }
     }
 
@@ -41,6 +41,18 @@ public class Fight : MonoBehaviour
 
         foreach (Unit u in units) {
             RhythmEngine.GetTagged().AddMarching(u);
+        }
+    }
+
+    void Update()
+    {
+        for (int i = units.Count - 1; i >= 0; --i) {
+            Unit u = units[i];
+            if (u.transform.localPosition.x < 1.0f) {
+                RhythmEngine.GetTagged().RemoveMarching(u);
+                u.Kill(despawnDelta);
+                units.RemoveAt(i);
+            }
         }
     }
 
