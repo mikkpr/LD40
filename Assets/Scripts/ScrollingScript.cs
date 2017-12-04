@@ -30,11 +30,6 @@ public class ScrollingScript : MonoBehaviour
     public bool isLooping = false;
 
     /// <summary>
-    /// Time when scroll will be stopped
-    /// </summary>
-    public float scrollForSeconds = 191;
-
-    /// <summary>
     /// 2 - List of children with a renderer.
     /// </summary>
     private List<SpriteRenderer> backgroundPart;
@@ -70,7 +65,7 @@ public class ScrollingScript : MonoBehaviour
 
     void Update()
     {
-        if (Time.time >= scrollForSeconds)
+        if (Time.time >= Constants.Level1Duration)
         {
             return;
         }

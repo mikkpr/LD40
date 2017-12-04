@@ -8,8 +8,7 @@ public class FallingBackground : MonoBehaviour
 {
     const float minY = 6.0f;
     const float maxY = -0.8f;
-    const float duration = 3 * 60;
-    const float tick = (minY - maxY) / duration;
+    const float tick = (minY - maxY) / Constants.Level1Duration;
 
     void Start()
     {

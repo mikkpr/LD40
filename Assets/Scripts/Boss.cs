@@ -1,11 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Boss : MonoBehaviour
 {
+    // Number of times the player can miss before their Groove runs out.
+    public int groove = 4;
+
+    // GrooveBar containing current Groove.
+    public GrooveBar grooveBar = null;
+
     // Challenges issued by this Boss.
     public List<Challenge> challenges = null;
+
+    private float grooveStep;
 
     [System.Serializable]
     public class Challenge
@@ -18,6 +27,11 @@ public class Boss : MonoBehaviour
 
         // Offsets from the start of the Challenge when notes are played.
         public List<float> offsets = null;
+    }
+
+    void Start()
+    {
+        grooveStep = 100.0f / groove;
     }
 
     // Called by RhythmManager when the boss has to wind up for a new key.
@@ -45,14 +59,18 @@ public class Boss : MonoBehaviour
     public void OnMiss()
     {
         // Decrease groove bar.
+        grooveBar.Decrement(grooveStep);
+
         // Change Scene to failure if groove empty.
-        Debug.Log("Boss.OnMiss");
+        if ((groove--) <= 0)
+        {
+            SceneManager.LoadScene("Lose");
+        }
     }
 
     // Called by RhythmManager when the player completed all Challenges.
     public void OnSuccess()
     {
-        // Change Scene to success.
-        Debug.Log("Boss.OnSuccess");
+        SceneManager.LoadScene("Win");
     }
 }
