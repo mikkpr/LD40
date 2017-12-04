@@ -63,28 +63,8 @@ public class ScrollingScript : MonoBehaviour
         }
     }
 
-    // Distance passed at which events are sent out
-    // feel free to change this as you desire
-    int eventInterval = 25;
-
-    public static bool Move { get; set; }
-    public static float DistanceTravelled { get; private set; }
-    static int lastSentDistance;
-
-    public static EventHandler<DistanceEventArgs> MarkPassed;
-
     void Update()
     {
-        if (!Move && Time.time > 2.0)
-        {
-            Move = true;
-        }
-
-        if (!Move)
-        {
-            return;
-        }
-
         // Movement
         Vector3 movement = new Vector3(speed.x * direction.x, speed.y * direction.y, 0);
 
@@ -95,24 +75,6 @@ public class ScrollingScript : MonoBehaviour
         if (isLinkedToCamera)
         {
             Camera.main.transform.Translate(movement);
-        }
-
-        // We have several GameObjects that call this movement script,
-        // search for the one that has the distance tag (Foreground)
-        if (gameObject.tag.Equals("Distance"))
-        {
-            DistanceTravelled += Mathf.Abs(movement.x);
-
-            // Call event handler if we've moved 25 units and the event has a handler attached
-            if (DistanceTravelled % eventInterval < 1 && MarkPassed != null)
-            {
-                int currentDistance = (int)DistanceTravelled;
-                if (!currentDistance.Equals(lastSentDistance) && currentDistance != 0)
-                {
-                    lastSentDistance = currentDistance;
-                    MarkPassed(null, new DistanceEventArgs { Distance = lastSentDistance });
-                }
-            }
         }
 
         // 4 - Loop
