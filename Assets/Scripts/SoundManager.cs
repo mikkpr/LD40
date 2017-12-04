@@ -65,6 +65,11 @@ public class SoundManager : MonoBehaviour {
         }
     }
 
+    public bool IsMusicPlaying () {
+        AudioSource source = musicSources[0];
+        return source.isPlaying;
+    }
+
     public void SetVolume (float scale) {
         volumeScale = scale;
         float actualMusicScale = (volumeScale * musicVolumeScale / 100 / 100);
