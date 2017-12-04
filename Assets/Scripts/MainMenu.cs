@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour {
     public GameObject optionsPanel;
+    public GameObject tutorialPanel;
     public Slider volumeSlider;
     public Text volumeLabel;
     public Slider musicVolumeSlider;
@@ -15,11 +16,8 @@ public class MainMenu : MonoBehaviour {
 
     public Image BGImage;
 
-    CanvasGroup optionsPanelCanvasGroup;
-
     // Use this for initialization
     void Awake () {
-        optionsPanelCanvasGroup = optionsPanel.GetComponent<CanvasGroup> ();
         HideOptionsPanel ();
     }
 
@@ -40,9 +38,8 @@ public class MainMenu : MonoBehaviour {
     void UpdateBGAlpha () {
         float alpha = GetBGAlpha ();
         Color c = BGImage.color;
-        c.a = Mathf.Clamp(alpha, 0f, 1f);
+        c.a = Mathf.Clamp (alpha, 0f, 1f);
         BGImage.color = c;
-        Debug.Log(c);
     }
 
     float GetBGAlpha () {
@@ -58,11 +55,19 @@ public class MainMenu : MonoBehaviour {
 
     void ShowOptionsPanel () {
         volumeSlider.value = SoundManager.instance.GetVolume ();
-        optionsPanelCanvasGroup.gameObject.SetActive (true);
+        optionsPanel.SetActive (true);
     }
 
     void HideOptionsPanel () {
-        optionsPanelCanvasGroup.gameObject.SetActive (false);
+        optionsPanel.SetActive (false);
+    }
+
+    void ShowTutorialPanel () {
+        tutorialPanel.SetActive (true);
+    }
+
+    void HideTutorialPanel () {
+        tutorialPanel.SetActive (false);
     }
 
     void VolumeValueChange (float volume) {
@@ -76,6 +81,10 @@ public class MainMenu : MonoBehaviour {
     public void OnStartButtonPress () {
         SoundManager.instance.StopMainMenuTheme ();
         SceneManager.LoadScene ("Fight");
+    }
+
+    public void OnTutorialButtonPress () {
+        ShowTutorialPanel ();
     }
 
     public void OnOptionsButtonPress () {
@@ -94,5 +103,6 @@ public class MainMenu : MonoBehaviour {
 
     public void OnCancelButtonPress () {
         HideOptionsPanel ();
+        HideTutorialPanel ();
     }
 }
