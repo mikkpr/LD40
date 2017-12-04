@@ -79,6 +79,7 @@ public class ScrollingScript : MonoBehaviour
 
             if (boss != null)
             {
+                boss.EnterLevel();
                 RhythmEngine.GetTagged().SetBoss(boss);
                 isBossAdded = true;
                 print("Added boss, great success!");

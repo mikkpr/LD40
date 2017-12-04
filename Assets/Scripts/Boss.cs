@@ -14,6 +14,9 @@ public class Boss : MonoBehaviour
     // Challenges issued by this Boss.
     public List<Challenge> challenges = null;
 
+    public Vector3 finalRelativePosition = new Vector3(-8.0f, 0.0f, 0.0f);
+    public float enterSpeed = 0.5f;
+
     public float sceneChangeDelta = 10.0f;
 
     private float grooveStep = 0.0f;
@@ -21,6 +24,8 @@ public class Boss : MonoBehaviour
     private float sceneChangeTime = float.PositiveInfinity;
     private string sceneChangeName = "";
     private bool endTriggered = false;
+    private bool entering = false;
+    private Vector3 finalPosition;
 
     [System.Serializable]
     public class Challenge
@@ -52,9 +57,20 @@ public class Boss : MonoBehaviour
     {
         float t = Time.time;
 
+        if (entering)
+        {
+            transform.position = Vector3.Lerp(transform.position, finalPosition, Time.deltaTime * enterSpeed);
+        }
+
         if (t >= sceneChangeTime) {
             SceneManager.LoadScene(sceneChangeName);
         }
+    }
+
+    public void EnterLevel()
+    {
+        entering = true;
+        finalPosition = transform.position + finalRelativePosition;
     }
 
     // Called by RhythmManager when the boss has to wind up for a new key.
