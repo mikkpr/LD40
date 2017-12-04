@@ -3091,7 +3091,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c934eb52830ff48b5a157bd28c8d4c4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  groove: 4
+  grooveBar: {fileID: 0}
   challenges: []
+  sceneChangeDelta: 10
 --- !u!114 &114385988435743928
 MonoBehaviour:
   m_ObjectHideFlags: 1

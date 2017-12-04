@@ -575,27 +575,27 @@ Prefab:
     - target: {fileID: 224852005723972624, guid: 0561d2fb7c2324ddcbd86ca1b5af7bc6,
         type: 2}
       propertyPath: m_LocalPosition.x
-      value: -221.99998
+      value: 646.55
       objectReference: {fileID: 0}
     - target: {fileID: 224852005723972624, guid: 0561d2fb7c2324ddcbd86ca1b5af7bc6,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: 423.65
+      value: 423.64993
       objectReference: {fileID: 0}
     - target: {fileID: 224852005723972624, guid: 0561d2fb7c2324ddcbd86ca1b5af7bc6,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 434.5
+      value: -221.45001
       objectReference: {fileID: 0}
     - target: {fileID: 224852005723972624, guid: 0561d2fb7c2324ddcbd86ca1b5af7bc6,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -64.600006
+      value: -64.60007
       objectReference: {fileID: 0}
     - target: {fileID: 224852005723972624, guid: 0561d2fb7c2324ddcbd86ca1b5af7bc6,
         type: 2}
       propertyPath: m_AnchorMin.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224852005723972624, guid: 0561d2fb7c2324ddcbd86ca1b5af7bc6,
         type: 2}
@@ -605,12 +605,12 @@ Prefab:
     - target: {fileID: 224852005723972624, guid: 0561d2fb7c2324ddcbd86ca1b5af7bc6,
         type: 2}
       propertyPath: m_AnchorMax.x
-      value: 0.24366361
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224852005723972624, guid: 0561d2fb7c2324ddcbd86ca1b5af7bc6,
         type: 2}
       propertyPath: m_SizeDelta.x
-      value: 19.900146
+      value: 442.90015
       objectReference: {fileID: 0}
     - target: {fileID: 224852005723972624, guid: 0561d2fb7c2324ddcbd86ca1b5af7bc6,
         type: 2}
@@ -1295,6 +1295,7 @@ MonoBehaviour:
   direction: {x: -1, y: 0}
   isLinkedToCamera: 0
   isLooping: 1
+  boss: {fileID: 0}
 --- !u!4 &1436059198
 Transform:
   m_ObjectHideFlags: 0
@@ -1421,6 +1422,7 @@ MonoBehaviour:
   direction: {x: -1, y: 0}
   isLinkedToCamera: 0
   isLooping: 1
+  boss: {fileID: 0}
 --- !u!4 &1848340569
 Transform:
   m_ObjectHideFlags: 0
@@ -1468,6 +1470,7 @@ MonoBehaviour:
   direction: {x: -1, y: 0}
   isLinkedToCamera: 0
   isLooping: 1
+  boss: {fileID: 0}
 --- !u!114 &1922964072
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1525,6 +1528,7 @@ MonoBehaviour:
   direction: {x: -1, y: 0}
   isLinkedToCamera: 0
   isLooping: 1
+  boss: {fileID: 0}
 --- !u!4 &1942121507
 Transform:
   m_ObjectHideFlags: 0
