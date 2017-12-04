@@ -50,7 +50,7 @@ public class Boss : MonoBehaviour
         }
 
         noteText = GetComponent<TextMeshPro>();
-        noteText.text = "A B C D E";
+        noteText.text = "";
     }
 
     void Start()
