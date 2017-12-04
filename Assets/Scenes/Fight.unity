@@ -852,7 +852,7 @@ MonoBehaviour:
   maxY: 4
   unitSpecs:
   - prefab: {fileID: 1723102104858134, guid: 65c2cf01cceca4f2e938dfb4c281aa45, type: 2}
-    spawnTime: 10
+    spawnTime: 16
     interval: 2
     offset: 1
     sequence: 0
@@ -974,6 +974,7 @@ MonoBehaviour:
   direction: {x: -1, y: 0}
   isLinkedToCamera: 0
   isLooping: 1
+  scrollForSeconds: 191
 --- !u!4 &1436059198
 Transform:
   m_ObjectHideFlags: 0
@@ -1100,6 +1101,7 @@ MonoBehaviour:
   direction: {x: -1, y: 0}
   isLinkedToCamera: 0
   isLooping: 1
+  scrollForSeconds: 191
 --- !u!4 &1848340569
 Transform:
   m_ObjectHideFlags: 0
@@ -1147,6 +1149,7 @@ MonoBehaviour:
   direction: {x: -1, y: 0}
   isLinkedToCamera: 0
   isLooping: 1
+  scrollForSeconds: 191
 --- !u!114 &1922964072
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1204,6 +1207,7 @@ MonoBehaviour:
   direction: {x: -1, y: 0}
   isLinkedToCamera: 0
   isLooping: 1
+  scrollForSeconds: 191
 --- !u!4 &1942121507
 Transform:
   m_ObjectHideFlags: 0
