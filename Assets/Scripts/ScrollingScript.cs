@@ -30,6 +30,11 @@ public class ScrollingScript : MonoBehaviour
     public bool isLooping = false;
 
     /// <summary>
+    /// Time when scroll will be stopped
+    /// </summary>
+    public float scrollForSeconds = 191;
+
+    /// <summary>
     /// 2 - List of children with a renderer.
     /// </summary>
     private List<SpriteRenderer> backgroundPart;
@@ -65,6 +70,11 @@ public class ScrollingScript : MonoBehaviour
 
     void Update()
     {
+        if (Time.time >= scrollForSeconds)
+        {
+            return;
+        }
+
         // Movement
         Vector3 movement = new Vector3(speed.x * direction.x, speed.y * direction.y, 0);
 
